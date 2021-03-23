@@ -13,6 +13,7 @@
     <input type="text" id="gameInput" :value="game" @input="updateGame">
     <br>
     <button type="submit" @click="submitHandler">Submit</button>
+    <button @click="updateAge">修改年龄</button>
 </template>
 
 <script>
@@ -59,6 +60,9 @@ export default {
         submitHandler(){
             this.details.height = 165;
             this.$emit('custom-submit',this.age)
+        },
+        updateAge(){
+            this.$emit('update:age',45)
         }
         // errorHandler(){
         //     alert("age error")
