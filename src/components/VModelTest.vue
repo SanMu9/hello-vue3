@@ -14,6 +14,12 @@
     <br>
     <button type="submit" @click="submitHandler">Submit</button>
     <button @click="updateAge">修改年龄</button>
+
+    <p>==========================</p>
+    <p>name:{{name}}</p>
+    <label>绑定input value：</label><input type="text" :value="name"><br><br>
+    <label>绑定input value并添加input事件：</label><input type="text" :value="name" @input="name=$event.target.value"><br><br>
+    <label>绑定input v-model：</label><input type="text" v-model="name" ><br><br>
 </template>
 
 <script>
@@ -47,7 +53,8 @@ export default {
     },
     data(){
         return {
-            details:this.detail
+            details:this.detail,
+            name:"sanmu"
         }
     },
     methods:{

@@ -34,7 +34,12 @@ const routes = [
     path: '/provide',
     name: 'Provide',
     component: () => import(/* webpackChunkName: "about" */ '../views/Provide.vue')
-  }
+  },
+  {
+    path: '/vuex',
+    name: 'Vuex',
+    component: () => import('../views/Vuex.vue')
+  },
 ]
 
 const router = createRouter({

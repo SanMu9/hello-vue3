@@ -6,6 +6,7 @@
     <router-link to="/teleport">Teleport</router-link> |
     <router-link to="/vmodel">v-model</router-link> |
     <router-link to="/provide">Provide</router-link> |
+    <router-link to="/vuex">Vuex</router-link> |
   </div>
   <router-view/>
 </template>
