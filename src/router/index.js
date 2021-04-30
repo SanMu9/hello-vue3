@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-01-06 15:13:48
+ * @LastEditTime: 2021-04-28 16:19:01
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \hello-vue3\src\router\index.js
+ */
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 
@@ -39,6 +47,11 @@ const routes = [
     path: '/vuex',
     name: 'Vuex',
     component: () => import('../views/Vuex.vue')
+  },
+  {
+    path: '/mapbox',
+    name: 'Mapbox',
+    component: () => import('../views/MapboxDemo.vue')
   },
 ]
 

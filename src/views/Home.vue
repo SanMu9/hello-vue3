@@ -30,7 +30,7 @@ export default {
       clickHandler2(obj){
 
         setTimeout(()=>{
-          // obj.count+=1;
+          // obj.count+=1; 
           obj = {
             count:obj.count++
           }
