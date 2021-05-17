@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 15:13:48
- * @LastEditTime: 2021-05-13 16:58:36
+ * @LastEditTime: 2021-05-17 11:47:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\router\index.js
@@ -67,6 +67,11 @@ const routes = [
   {
     path: '/mapbox',
     name: 'Mapbox',
+    component: () => import('../views/Mapbox.vue')
+  },
+  {
+    path: '/mapbox2',
+    name: 'Mapbox2',
     component: () => import('../views/MapboxDemo.vue')
   },
   {
