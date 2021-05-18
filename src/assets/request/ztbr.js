@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-05-17 10:17:58
- * @LastEditTime: 2021-05-17 10:57:03
+ * @LastEditTime: 2021-05-18 18:21:41
  * @LastEditors: Please set LastEditors
  * 
  * @Description: zhitongborui 接口
@@ -22,7 +22,7 @@ const request = axios.create({
 
 request.interceptors.request.use(
     config => {
-        const token = "a67885ab7990ec22c2d2988d18d6b6c6bf96c289";
+        const token = "40ba4f7bc83356d0e2a33cd0db92b8ef8cb1ac17";
         config.headers['Authorization'] = 'token ' + token;
 
         return config;
@@ -50,3 +50,22 @@ export const GetCityOrgPointsReq = (params) => {
         params:params
     })
 }
+
+export const GetCoordsReq = params => {
+    return  request({
+        url:'/v1/city/coding/',
+        method:'get',
+        params:params
+    })
+}
+
+export const GetRegionsReq = params => {
+    return request({
+        url:'/v1/city/non_resident/',
+        method:'get',
+        params:params
+    })
+}
+// export const GetCarRouteReq = (params) => {
+
+// }

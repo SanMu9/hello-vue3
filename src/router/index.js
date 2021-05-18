@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 15:13:48
- * @LastEditTime: 2021-05-17 11:47:19
+ * @LastEditTime: 2021-05-18 17:49:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\router\index.js
@@ -67,7 +67,28 @@ const routes = [
   {
     path: '/mapbox',
     name: 'Mapbox',
-    component: () => import('../views/Mapbox.vue')
+    component: () => import('../views/Mapbox.vue'),
+    children:[
+      // {
+      //   path:"",
+      //   redirect:'/mapbox/points',
+      // },
+      {
+        path:'points',
+        name:'mapbox-points',
+        component: ()=> import('../components/mapbox/Points.vue')
+      },
+      {
+        path:'route',
+        name:'mapbox-route',
+        component: ()=> import('../components/mapbox/Route.vue')
+      },
+      {
+        path:'heatmap',
+        name:'mapbox-heatmap',
+        component: ()=> import('../components/mapbox/Heatmap.vue')
+      }
+  ]
   },
   {
     path: '/mapbox2',
