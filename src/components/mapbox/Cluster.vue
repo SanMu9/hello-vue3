@@ -1,5 +1,13 @@
 <!--
  * @Author: your name
+ * @Date: 2021-05-20 15:01:40
+ * @LastEditTime: 2021-05-20 15:50:06
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /hello-vue3/src/components/mapbox/Clustor.vue
+-->
+<!--
+ * @Author: your name
  * @Date: 2021-05-17 10:37:02
  * @LastEditTime: 2021-05-19 11:01:19
  * @LastEditors: Please set LastEditors
@@ -22,7 +30,7 @@ export default {
         "pk.eyJ1Ijoic2FubXU5IiwiYSI6ImNrbzE3MnZkajBtb24yeG9ibmxjMHE1ZDYifQ.9mVkYRsx-tj0MZeMowE3MA";
       const map = new mapboxgl.Map({
         container: "map",
-        zoom: 6,
+        zoom: 8,
         center: [116.385068, 39.901329],
         pitch: 0,
         bearing: 0,
@@ -56,100 +64,10 @@ export default {
               features: features,
             },
           };
-          // this.drawPoints(geojson)
-          // this.drawPoints2(geojson)
           this.drawPoints3(geojson);
      
     },
-    /**
-     * @description: 绘制点到同一个layer 通过expression控制paint样式
-     * @param {*} data
-     * @return {*}
-     */
-    drawPoints(data) {
-      console.log(data);
-      const map = window.Mapbox;
-      map.addSource("points_source", data);
-      map.addLayer({
-        id: "points_test",
-        type: "circle",
-        source: "points_source",
-        paint: {
-          "circle-color": [
-            "match",
-            ["get", "is_has_station"],
-            0,
-            "#b10e0e",
-            1,
-            "#0ce613",
-            "#ffffff",
-          ],
-          "circle-opacity": 0.8,
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-
-            6,
-            1,
-            // ['match',['get','is_has_station'],1],
-            12,
-            ["match", ["get", "is_has_station"], 1, 24, 10],
-          ],
-        },
-      });
-    },
-    /**
-     * @description: 通过filter将点绘制在不同的图层
-     * @param {*} data
-     * @return {*}
-     */
-    drawPoints2(data) {
-      const map = window.Mapbox;
-      map.addSource("points_source", data);
-      map.addLayer({
-        id: "points_1",
-        type: "circle",
-        source: "points_source",
-        paint: {
-          "circle-color": "#b10e0e",
-          "circle-opacity": 0.8,
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            8,
-            1,
-            10,
-            3,
-            12,
-            8,
-          ],
-        },
-        filter: ["==", "is_has_station", 0],
-      });
-      map.addLayer({
-        id: "points_2",
-        type: "circle",
-        source: "points_source",
-        paint: {
-          "circle-color": "#0ce613",
-          "circle-opacity": 0.8,
-          "circle-radius": [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            8,
-            1,
-            10,
-            5,
-            12,
-            20,
-          ],
-        },
-        filter: ["==", "is_has_station", 1],
-      });
-    },
+    
     /**
      * @description: 绘制icon
      * @param {*} data
@@ -157,7 +75,13 @@ export default {
      */
     drawPoints3(data) {
       const map = window.Mapbox;
-      map.addSource("points_source", data);
+
+      map.addSource("points_source", {
+          ...data,
+          cluster:true,
+          clusterMaxZoom: 14, // Max zoom to cluster points on
+        clusterRadius: 50 //
+      });
       map.loadImage(
         require("../../../public/images/red_circle.png"),
         function (err, image) {
@@ -170,6 +94,7 @@ export default {
                 id: "symbol_1",
                 source: "points_source",
                 type: "symbol",
+                filter:['!', ['has', 'point_count']],
                 layout: {
                   "icon-image": [
                       'match',
@@ -192,15 +117,48 @@ export default {
                 },
                 // filter:['==','is_has_station',0]
               });
-              map.on("mouseenter", "symbol_1", function () {
-                map.getCanvas().style.cursor = "pointer";
-              });
-              map.on("mouseleave", "symbol_1", function () {
-                map.getCanvas().style.cursor = "";
-              });
-              map.on("click", "symbol_1", function (ev) {
-                console.log(ev.features[0].properties);
-              });
+              
+              map.addLayer({
+                  id:"clusters_layer",
+                  type:"symbol",
+                  source:'points_source',
+                  filter: ['has', 'point_count'],
+                  layout: {
+                    "icon-image": [
+                        'match',
+                        ['get','is_has_station'],
+                        1,
+                        ['image','green_circle'],
+                        ['image','red_circle'],
+                    ],
+                    "icon-size": [
+                        'step',
+                        ['get', 'point_count'],
+                        1,
+                        20,
+                        1.5,
+                        50,
+                        2
+                    ],
+                    // 'text-color': "#ffffff",
+                    'text-field': '{point_count_abbreviated}',
+                },
+                paint:{
+                    'text-color':"#ffffff"
+                }
+              })
+              
+            //   map.addLayer({
+            //     id: 'cluster-count',
+            //     type: 'symbol',
+            //     source: 'points_source',
+            //     filter: ['has', 'point_count'],
+            //     layout: {
+            //         'text-field': '{point_count_abbreviated}',
+            //         // 'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            //         'text-size': 12
+            //     }
+            // });
             }
           );
         }

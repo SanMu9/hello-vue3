@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-18 16:57:32
- * @LastEditTime: 2021-05-18 17:18:41
+ * @LastEditTime: 2021-05-19 09:22:24
  * @LastEditors: Please set LastEditors
  * @Description: mapboxgl 绘制热力图
  * @FilePath: /hello-vue3/src/components/mapbox/Heatmap.vue
@@ -33,19 +33,9 @@ export default {
       });
     },
     getCityOrgPoints() {
-      let params = {
-        duration: "daily",
-        start_date: "2021-05-17",
-        end_date: "2021-05-17",
-        area_coding: "",
-        street_coding: "",
-        org_type_id: "d74a392ec02911eaa8a9000c29d3cc31",
-        org_sub_type_id: "",
-      };
-      GetCityOrgPointsReq(params)
-        .then((res) => {
-          console.log(res);
-          const data = res.data.data;
+   
+     
+          const data = require('../../../public/json/points.json').data;
           const features = data.map((item) => {
             return {
               type: "Feature",
@@ -66,10 +56,6 @@ export default {
             },
           };
           this.drawHeatmap(geojson)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
     drawHeatmap(data) {
         const map = window.Mapbox;

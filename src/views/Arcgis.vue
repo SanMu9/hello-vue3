@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-13 15:58:37
- * @LastEditTime: 2021-05-18 17:33:51
+ * @LastEditTime: 2021-05-20 17:40:30
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\views\Arcgis.vue
@@ -39,6 +39,7 @@ import WebMap from "@arcgis/core/WebMap";
 import MapView from "@arcgis/core/views/MapView";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import WebTileLayer from "@arcgis/core/layers/WebTileLayer";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 
 import SceneView from "@arcgis/core/views/SceneView";
 import Graphic from "@arcgis/core/Graphic";
@@ -61,10 +62,41 @@ export default {
           tilt: 0.5,
         },
         shanXiOutline: {
-          position: [112.9824, 32.8662, 1226725.3277],
-          heading: 352.5302,
-          tilt: 22.4034,
+          position: {
+            longitude:114.3428,
+            latitude:30.4496,
+            z:1146558.2339
+          },
+          heading: 353.4840,
+          tilt: 34.3822,
         },
+        JSArea:{
+          position:{
+            longitude:116.1524,
+            latitude:30.7766,
+            z:1085163.5798
+          },
+          heading:338.6368,
+          tilt:39.4037,
+        },
+        JCJArea:{
+          position:{
+            longitude:117.8505,
+            latitude:33.6516,
+            z:659496.2959
+          },
+          heading:339.7401,
+          tilt:43.2274
+        },
+        JJYArea:{
+          position:{
+            longitude:115.4975,
+            latitude:30.8550,
+            z:638692.7655
+          },
+          heading:338.4943,
+          tilt:43.3873
+        }
       },
     };
   },
@@ -124,8 +156,39 @@ export default {
         graphicsLayer: graphics_layer,
       };
       setTimeout(() => {
-        this.goToCamera("shanXiOutline").then(() => {
-          this.drawoShanXiOutline();
+        this.goToCamera("JSArea").then(() => {
+
+          this.drawJSOutline();
+          this.drawJSOuterArea();
+          setTimeout(()=>{
+            this.goToCamera("JCJArea").then(()=>{
+              this.drawJCJOutline();
+              this.drawJCJOuterArea();
+
+              setTimeout(()=>{
+                this.goToCamera("JJYArea").then(()=>{
+                  this.drawJJYOutline();
+                  this.drawJJYOuterArea();
+                  setTimeout(()=>{
+                    this.goToCamera("shanXiOutline").then(()=>{
+                      this.drawoShanXiOutline();
+                    })
+                  },1000)
+
+               })
+              },1000)
+            
+            })
+          },1000)
+          
+
+          
+          
+          view.on('click',function(event){
+            view.hitTest(event).then(res => {
+              console.log(res)
+            })
+          })
         });
       }, 1500);
       // this.showArcgisInfo();
@@ -134,6 +197,7 @@ export default {
     goToCamera(type) {
       const camera = this.cameraInfo[type];
       let cam = new Camera(camera);
+      console.log(cam)
       return window.view.goTo(cam, {
         speedFactor: 0.5,
         duration: 2000,
@@ -153,61 +217,21 @@ export default {
         },
         geometry: {
           type: "polyline",
-          // paths: outlinePath,
-          hasM: true,
-          hasZ: true,
-          paths: [
-            [110.761296, 34.653515, 10000],
-            [111.843667, 35.072052, 10000],
-          ],
-        },
-        // symbol: {
-        //   type: "simple-line",
-        //   color: [255, 255, 255],
-        //   width: 4,
-        // },
-
-        // symbol: {
-        //   type: "line-3d",
-        //   // color: [255, 255, 255],
-
-        //   symbolLayers: [
-        //     {
-        //       type: "path",
-        //       profile: "quad",
-        //       material: {
-        //         color: [100, 100, 100],
-        //       },
-        //       width: 5, // the width in m
-        //       height: 30, // the height in m
-        //       anchor: "bottom", // the vertical anchor is set to the lowest point of the wall
-        //       profileRotation: "heading",
-        //     },
-        //   ],
-        // },
+          paths: outlinePath,
+        }
       });
       const layer = new FeatureLayer({
         source: [
-          {
-            attributes: {
-              name: "山西省轮廓",
-            },
-            geometry: {
-              type: "polyline",
-              paths: outlinePath,
-              // paths: [
-              //   [110.761296, 34.653515],
-              //   [111.843667, 35.072052],
-              // ],
-              // hasZ: true,
-              // hadM: true,
-            },
-            // symbol: {
-            //   type: "simple-line",
-            //   color: [255, 255, 255],
-            //   width: 5,
-            // },
-          },
+          graphic
+          // {
+          //   attributes: {
+          //     name: "山西省轮廓",
+          //   },
+          //   geometry: {
+          //     type: "polyline",
+          //     paths: outlinePath,
+          //   },
+          // },
         ],
         title: "shanXiOutline",
         objectIdField: "name",
@@ -231,13 +255,6 @@ export default {
             // color: [255, 255, 255],
 
             symbolLayers: [
-              // {
-              //   type: "line", // autocasts as new LineSymbol3DLayer()
-              //   size: 20, // points
-              //   material: { color: "#ffffff" },
-              //   cap: "round",
-              //   join: "round",
-              // },
               {
                 type: "path",  // autocasts as new PathSymbol3DLayer()
                 profile: "quad",  // creates a rectangular shape
@@ -252,8 +269,33 @@ export default {
         },
       });
       window.view.map.add(layer);
+      // setTimeout(()=>{
+      //   layer.renderer = {
+      //      type: "simple",
+      //     // symbol: {
+      //     //   type: "simple-line",
+      //     //   color: [255, 255, 255],
+      //     //   width: 5,
+      //     // },
+      //     symbol: {
+      //       type: "line-3d",
+      //       // color: [255, 255, 255],
+
+      //       symbolLayers: [
+      //         {
+      //           type: "path",  // autocasts as new PathSymbol3DLayer()
+      //           profile: "quad",  // creates a rectangular shape
+      //           width: 1000,  // path width in meters
+      //           height: 1000,  // path height in meters
+      //           anchor:'bottom',
+      //           material: { color: "#000000" },
+      //           profileRotation: "heading"
+      //         }
+      //       ],
+      //     },
+      //   }
+      // },3000)
       console.log(layer.queryFeatures());
-      console.log(graphic);
       // window.ArcgisLayers.graphicsLayer.add(graphic);
     },
     /**
@@ -294,9 +336,12 @@ export default {
         "stationary",
         "camera.position.longitude",
         "camera.position.latitude",
+        "camera.position.x",
+        "camera.position.y",
         "camera.position.z",
         "camera.tilt",
         "camera.heading",
+        "camera.fov",
       ];
       function createTables() {
         const eventsTable = document.getElementById("events");
@@ -367,6 +412,429 @@ export default {
         setupPropertiesListener(window.view, properties[i]);
       }
     },
+
+    drawJSOutline (){
+      const geojson = require("../../public/json/晋绥片区_outline.json");
+      const coords = geojson.features[0].geometry.coordinates;
+      const rings = [];
+      coords.forEach(item => {
+        rings.push(item[0].reverse())
+      })
+      const graphic = new Graphic({
+        attributes:{
+          OBJECTID:1,
+          name:"晋绥片区_山西",
+          title:"晋绥片区",
+          inShanxi:0,
+        },
+        geometry:{
+          type:"polygon",
+          rings:rings
+        }
+      })
+      const layer = new FeatureLayer({
+        source:[graphic],
+        title:"晋绥片区_山西",
+        objectIdField:"OBJECTID",
+        fields:[
+          {name:'title',type:'string'},
+        ],
+        // outFields:['*'],
+        renderer:{
+          type:'simple',
+          symbol:{
+            type:'polygon-3d',
+            symbolLayers:[
+              {
+                type:"fill",
+                material: { color: [255,0,0,0.3] },
+                outline: { color: "red" },
+                // type:'extrude',
+                // size:10000,
+                // material: { color: [255,0,0,0.8] },
+                // edges:{
+                //   type:'solid',
+                //   color:[255,0,0,0.8],
+                //   size:2
+                // }
+
+              }
+            ]
+          }
+          
+        },
+        labelsVisible:true,
+        labelingInfo:[
+          {
+            labelPlacement: "above-center",
+            symbol:{
+              type:'label-3d',
+              verticalOffset: {
+                screenLength: 8000,
+                maxWorldLength: 10000,
+                minWorldLength: 30
+              },
+              callout:{
+                type:'line',
+                size:1,
+                color:[255,255,255],
+                
+              },
+              symbolLayers:[
+                {
+                  type:'text',
+                  material:{
+                    color:[255,255,255,1]
+                  },
+                  size:12,
+                  text:"晋绥片区"
+                }
+              ]
+            },
+            labelExpressionInfo:{
+              expression:"$feature.title"
+            }
+          }
+        ]
+      })
+      // setTimeout(()=>{
+      //   layer.renderer = {
+      //     type:'simple',
+      //     symbol:{
+      //       type:'polygon-3d',
+      //       symbolLayers:[
+      //         {
+      //           // type:"fill",
+      //           // material: { color: [255,0,0,0.3] },
+      //           // outline: { color: "red" },
+      //           type:'extrude',
+      //           size:10000,
+      //           material: { color: [255,0,0,0.8] },
+      //           edges:{
+      //             type:'solid',
+      //             color:[255,0,0,0.8],
+      //             size:2
+      //           }
+
+      //         }
+      //       ]
+      //     }
+          
+      //   }
+      // },5000)
+      // // console.log()
+      window.view.map.add(layer)
+      
+    },
+    drawJCJOutline() {
+      const geojson = require('../../public/json/晋察冀片区_outline.json');
+      const coords = geojson.features[0].geometry.coordinates;
+      const rings = [];
+      coords.forEach(item => {
+        rings.push(item[0].reverse())
+      })
+      console.log(rings)
+      const graphic = new Graphic({
+        attributes:{
+          OBJECTID:"",
+          name:"晋察冀片区_山西",
+          title:"晋察冀片区",
+          inShanxi:true,
+        },
+        geometry:{
+          type:"polygon",
+          rings:rings
+        }
+      })
+      const layer = new FeatureLayer({
+        source:[graphic],
+        title:"晋察冀片区_山西",
+        objectIdField:"OBJECTID",
+        fields:[
+          {name:"title",type:'string'}
+        ],
+        outFields:["*"],
+        renderer:{
+          type:"simple",
+          symbol:{
+            type:"polygon-3d",
+            symbolLayers:[
+            {
+              type:"fill",
+              material: { color: [218,175,99,0.3] },
+              outline: { color: [218,175,99] },
+              // type:'extrude',
+              // size:3000,
+              // material: { color: [218,175,99,0.3] },
+              // edges:{
+              //   type:'solid',
+              //   color:[218,175,99,0.8],
+              //   size:2
+              // } 
+            }
+          ]
+          }
+        },
+        labelsVisible:true,
+        labelingInfo:[
+          {
+            labelPlacement: "above-center",
+            symbol:{
+              type:'label-3d',
+              verticalOffset: {
+                screenLength: 8000,
+                maxWorldLength: 10000,
+                minWorldLength: 30
+              },
+              callout:{
+                type:'line',
+                size:1,
+                color:[255,255,255],
+                
+              },
+              symbolLayers:[
+                {
+                  type:'text',
+                  material:{
+                    color:[255,255,255,1]
+                  },
+                  size:12,
+                  text:"晋绥片区"
+                }
+              ]
+            },
+            labelExpressionInfo:{
+              expression:"$feature.title"
+            }
+          }
+        ]
+      })
+      window.view.map.add(layer);
+    },
+    drawJJYOutline() {
+      const geojson = require('../../public/json/晋冀豫片区_outline.json');
+      const coords = geojson.features[0].geometry.coordinates;
+      const rings = [];
+      coords.forEach(item => {
+        rings.push(item.reverse())
+      })
+      console.log(rings)
+      const graphic = new Graphic({
+        attributes:{
+          OBJECTID:"",
+          name:"晋冀豫片区_山西",
+          title:"晋冀豫片区",
+          inShanxi:true,
+        },
+        geometry:{
+          type:"polygon",
+          rings:rings
+        }
+      })
+      const layer = new FeatureLayer({
+        source:[graphic],
+        title:"晋冀豫片区_山西",
+        objectIdField:"OBJECTID",
+        fields:[
+          {name:"title",type:'string'}
+        ],
+        outFields:["*"],
+        renderer:{
+          type:"simple",
+          symbol:{
+            type:"polygon-3d",
+            symbolLayers:[
+            {
+              type:"fill",
+              material: { color: [249,221,74,0.3] },
+              outline: { color: [249,221,74] },
+              // type:'extrude',
+              // size:3000,
+              // material: { color: [218,175,99,0.3] },
+              // edges:{
+              //   type:'solid',
+              //   color:[218,175,99,0.8],
+              //   size:2
+              // } 
+            }
+          ]
+          }
+        },
+        labelsVisible:true,
+        labelingInfo:[
+          {
+            labelPlacement: "above-center",
+            symbol:{
+              type:'label-3d',
+              verticalOffset: {
+                screenLength: 8000,
+                maxWorldLength: 10000,
+                minWorldLength: 30
+              },
+              callout:{
+                type:'line',
+                size:1,
+                color:[255,255,255],
+                
+              },
+              symbolLayers:[
+                {
+                  type:'text',
+                  material:{
+                    color:[255,255,255,1]
+                  },
+                  size:12,
+                  text:"晋绥片区"
+                }
+              ]
+            },
+            labelExpressionInfo:{
+              expression:"$feature.title"
+            }
+          }
+        ]
+      })
+      window.view.map.add(layer);
+    },
+    drawJSOuterArea() {
+      const geojson = require('../../public/json/晋绥片区_outer_outline.json')
+      const coords = geojson.features[0].geometry.coordinates;
+      const rings = [];
+      coords.forEach(item => {
+        rings.push(item.reverse())
+      })
+      const graphic = new Graphic({
+        attributes:{
+          OBJECTID:"",
+          name:"晋绥片区_outer",
+          title:"晋绥片区",
+          inShanxi:0,
+        },
+        geometry:{
+          type:"polygon",
+          rings:rings
+        }
+      })
+      const layer = new FeatureLayer({
+        source:[graphic],
+        title:"晋绥片区-外省",
+        objectIdField:"OBJECTID",
+        fields:[
+          {name:'title',type:'string'},
+          {name:'inShanxi',type:'integer'}
+        ],
+        renderer:{
+          type:'simple',
+          symbol:{
+            type:'polygon-3d',
+            symbolLayers:[
+              {
+                type:"fill",
+                material: { color: [255,0,0,0.3] },
+                outline: { color: [255,0,0,0] },
+              }
+            ]
+          }
+          
+        },
+      })
+      layer.queryFeatures().then(res => {
+        console.log(res)
+      })
+      window.view.map.add(layer)
+
+    },
+    drawJCJOuterArea() {
+      const geojson = require('../../public/json/晋察冀片区_outer_outline.json')
+      const coords = geojson.features[0].geometry.coordinates;
+      const rings = [];
+      coords.forEach(item => {
+        rings.push(item)
+      })
+      const graphic = new Graphic({
+        attributes:{
+          OBJECTID:"",
+          name:"晋察冀片区_outer",
+          title:"晋察冀片区",
+          inShanxi:0,
+        },
+        geometry:{
+          type:"polygon",
+          rings:rings
+        }
+      })
+      const layer = new FeatureLayer({
+        source:[graphic],
+        title:"晋察冀片区-外省",
+        objectIdField:"OBJECTID",
+        fields:[
+          {name:'title',type:'string'},
+          {name:'inShanxi',type:'integer'}
+        ],
+        renderer:{
+          type:'simple',
+          symbol:{
+            type:'polygon-3d',
+            symbolLayers:[
+              {
+                type:"fill",
+                material: { color: [218,175,99,0.3] },
+                outline: { color: [218,175,99,0] },
+              }
+            ]
+          }
+          
+        },
+      })
+      window.view.map.add(layer)
+    },
+    drawJJYOuterArea() {
+      const geojson = require('../../public/json/晋冀豫片区_outer_outline.json')
+      const coords = geojson.features[0].geometry.coordinates;
+      let rings = [];
+      coords.forEach(item => {
+        console.log(item)
+        rings.push(item[0].reverse())
+        // rings = rings.concat(...item)
+      })
+      console.log(rings)
+      const graphic = new Graphic({
+        attributes:{
+          OBJECTID:"",
+          name:"晋冀豫片区_outer",
+          title:"晋冀豫片区",
+          inShanxi:0,
+        },
+        geometry:{
+          type:"polygon",
+          rings:rings
+        }
+      })
+      const layer = new FeatureLayer({
+        source:[graphic],
+        title:"晋冀豫片区-外省",
+        objectIdField:"OBJECTID",
+        fields:[
+          {name:'title',type:'string'},
+          {name:'inShanxi',type:'integer'}
+        ],
+        renderer:{
+          type:'simple',
+          symbol:{
+            type:'polygon-3d',
+            symbolLayers:[
+              {
+                type:"fill",
+                material: { color: [249,221,74,0.3] },
+                outline: { color: [249,221,74,0] },
+              }
+            ]
+          }
+          
+        },
+      })
+      window.view.map.add(layer)
+    }
   },
   mounted() {
     this.initMap();

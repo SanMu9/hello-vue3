@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-17 10:02:48
- * @LastEditTime: 2021-05-18 17:59:29
+ * @LastEditTime: 2021-05-20 15:03:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /hello-vue3/src/views/Mapbox.vue
@@ -13,7 +13,8 @@
           <router-link :to="{name:'mapbox-points'}">海量点</router-link>
           <router-link to="heatmap">热力图</router-link>
           <router-link to="route">车辆轨迹</router-link>
-
+          <router-link to="polygon">地图下钻</router-link>
+          <router-link to="cluster">聚合点</router-link>
       </div>
       <!-- <Route></Route> -->
       <!-- <Points></Points> -->
@@ -21,16 +22,8 @@
 </template>
 
 <script>
-import Points from '@/components/mapbox/Points.vue';
-import Route from '@/components/mapbox/Route.vue';
-import Heatmap from '@/components/mapbox/Heatmap.vue';
-
 export default {
-    components:{
-        Points,
-        Route,
-        Heatmap,
-    }
+
 }
 </script>
 
