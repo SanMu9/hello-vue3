@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-17 10:02:48
- * @LastEditTime: 2021-05-20 15:03:26
+ * @LastEditTime: 2021-05-24 14:59:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /hello-vue3/src/views/Mapbox.vue
@@ -15,6 +15,7 @@
           <router-link to="route">车辆轨迹</router-link>
           <router-link to="polygon">地图下钻</router-link>
           <router-link to="cluster">聚合点</router-link>
+          <router-link to="buildings">3D建筑</router-link>
       </div>
       <!-- <Route></Route> -->
       <!-- <Points></Points> -->
