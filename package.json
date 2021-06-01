@@ -11,13 +11,14 @@
     "@arcgis/core": "^4.19.3",
     "@turf/turf": "^6.3.0",
     "axios": "^0.21.1",
+    "coordtransform": "^2.1.2",
     "core-js": "^3.6.5",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.0-0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

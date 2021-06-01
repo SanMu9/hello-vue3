@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-13 15:58:37
- * @LastEditTime: 2021-05-25 10:03:49
+ * @LastEditTime: 2021-05-28 16:03:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\views\Arcgis.vue
@@ -201,7 +201,7 @@ export default {
       view.when(()=>{
         this.goToCamera('shanXiOutline').then(() => {
           this.drawoShanXiOutline();
-          this.drawPointsCluster();
+          // this.drawPointsCluster();
         })
       })
 

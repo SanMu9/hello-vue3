@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-25 10:20:07
- * @LastEditTime: 2021-05-25 11:12:16
+ * @LastEditTime: 2021-05-28 16:56:06
  * @LastEditors: Please set LastEditors
  * @Description: ArcGIS API for JS FeatureLayer polygon-3d
  * @FilePath: /hello-vue3/src/components/arcgis/Polygon.vue
@@ -97,7 +97,9 @@ export default {
 
       view.when(() => {
         this.goToCamera("JCJArea").then(() => {
+          this.drawChinaOutline()
           this.drawJCJOutline();
+          this.drawFromUrl();
         });
       });
     },
@@ -195,6 +197,61 @@ export default {
       window.view.map.add(layer);
       return layer;
     },
+    drawFromUrl(){
+      const layer = new FeatureLayer({
+        url:"https://services3.arcgis.com/5Z5DSAn76ElDv7tg/arcgis/rest/services/shanxi_buildings/FeatureServer",
+        renderer: {
+          type: "simple",
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                // type: "fill",
+                // material: { color: [218, 175, 99, 0.3] },
+                // outline: { color: [218, 175, 99] },
+
+                // 3d
+                type:'extrude',
+                size:50,
+                material: { color: 'blue' },
+                edges:{
+                  type:'solid',
+                  color:'blue',
+                  size:2
+                }
+              },
+            ],
+          },
+        },
+      });
+      window.view.map.add(layer)
+      console.log(layer)
+    },
+    drawChinaOutline(){
+      const layer = new FeatureLayer({
+        url:"https://services3.arcgis.com/5Z5DSAn76ElDv7tg/arcgis/rest/services/chinaoutline/FeatureServer",
+        renderer:{
+          type:"simple",
+          symbol:{
+            type:'polygon-3d',
+            
+            symbolLayers:[
+              {
+                type:'fill',
+                material:{
+                  color:[0,0,0,0]
+                },
+                outline:{
+                  color:"#ffffff",
+                  size:2
+                }
+              }
+            ]
+          }
+        }
+      })
+      window.view.map.add(layer)
+    }
   },
   mounted() {
     this.initMap();

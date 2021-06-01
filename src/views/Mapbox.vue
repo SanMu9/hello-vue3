@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-17 10:02:48
- * @LastEditTime: 2021-05-24 14:59:28
+ * @LastEditTime: 2021-05-31 18:06:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /hello-vue3/src/views/Mapbox.vue
@@ -10,6 +10,7 @@
   <div class="mapbox-container">
       <router-view/>
       <div class="nav">
+          <!-- <button @click="jump">!!!!</button> -->
           <router-link :to="{name:'mapbox-points'}">海量点</router-link>
           <router-link to="heatmap">热力图</router-link>
           <router-link to="route">车辆轨迹</router-link>
@@ -24,7 +25,11 @@
 
 <script>
 export default {
-
+    methods:{
+        jump(){
+            this.$router.push({name:'mapbox-heatmap'})
+        }
+    }
 }
 </script>
 

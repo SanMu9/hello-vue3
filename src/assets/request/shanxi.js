@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-05-24 10:23:38
- * @LastEditTime: 2021-05-24 10:51:52
+ * @LastEditTime: 2021-05-27 14:43:08
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /hello-vue3/src/assets/request/shanxi.js
@@ -9,7 +9,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-    baseURL: 'http://172.26.10.68:8092/',
+    baseURL: 'http://172.26.1.128:8092/',
     timeout: 100000
 })
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 15:13:48
- * @LastEditTime: 2021-05-26 10:18:52
+ * @LastEditTime: 2021-06-01 10:22:51
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\router\index.js
@@ -134,6 +134,11 @@ const routes = [
         path:'points',
         name:'arcgis-points',
         component: ()=> import('../components/arcgis/Points.vue')
+      },
+      {
+        path:'geojson',
+        name:'arcgis-geojson',
+        component: ()=> import('../components/arcgis/Geojson.vue')
       },
     ]
   },
