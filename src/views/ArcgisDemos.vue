@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-25 10:18:09
- * @LastEditTime: 2021-06-01 14:36:19
+ * @LastEditTime: 2021-06-08 16:39:05
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /hello-vue3/src/views/ArcgisDemos.vue
@@ -16,6 +16,8 @@
           <router-link to="viewChange">视图切换</router-link>
           <router-link to="points">点</router-link>
           <router-link to="geojson">交互</router-link>
+          <router-link to="polygonAnimation">polygon动画</router-link>
+
       </div>
   </div>
 </template>

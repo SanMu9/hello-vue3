@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 15:13:48
- * @LastEditTime: 2021-06-01 10:22:51
+ * @LastEditTime: 2021-06-08 16:38:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\router\index.js
@@ -140,6 +140,11 @@ const routes = [
         name:'arcgis-geojson',
         component: ()=> import('../components/arcgis/Geojson.vue')
       },
+      {
+        path:'polygonAnimation',
+        name:'arcgis-polygonAnimation',
+        component: ()=> import('../components/arcgis/PolygonAnimation.vue')
+      },
     ]
   },
   {
@@ -156,6 +161,11 @@ const routes = [
     path: '/test',
     name: 'Test',
     component: () => import('../components/mapbox/test.vue')
+  },
+  {
+    path: '/tools',
+    name: 'Tools',
+    component: () => import('../views/Tools.vue')
   },
 ]
 

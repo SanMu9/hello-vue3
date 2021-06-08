@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-25 10:20:07
- * @LastEditTime: 2021-06-07 17:37:03
+ * @LastEditTime: 2021-06-08 17:53:46
  * @LastEditors: Please set LastEditors
  * @Description: ArcGIS API for JS FeatureLayer polygon-3d
  * @FilePath: /hello-vue3/src/components/arcgis/Polygon.vue
@@ -16,6 +16,7 @@ import Map from "@arcgis/core/Map";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Camera from "@arcgis/core/Camera";
 import SceneView from "@arcgis/core/views/SceneView";
+import * as watchUtils from "@arcgis/core/core/watchUtils";
 
 export default {
   data() {
@@ -97,9 +98,10 @@ export default {
 
       view.when(() => {
         this.goToCamera("JCJArea").then(() => {
-          this.drawChinaOutline()
-          this.drawJCJOutline();
-          this.drawFromUrl();
+        //   this.drawChinaOutline()
+          const layer = this.drawJCJOutline();
+        //   this.drawFromUrl();
+        this.pullLayerHeight(layer)
         });
       });
     },
@@ -151,7 +153,7 @@ export default {
                 // 3d
                 type:'extrude',
                 size:3000,
-                material: { color: [218,175,99,0.3] },
+                material: { color: [218,175,99,1] },
                 edges:{
                   type:'solid',
                   color:[218,175,99,0.8],
@@ -196,6 +198,29 @@ export default {
       });
       window.view.map.add(layer);
       return layer;
+    },
+    pullLayerHeight(layer) {
+        let animation = true;
+        let opacity = 0;
+        const finalHeight = 1;
+        console.log(watchUtils)
+        window.view.whenLayerView(layer).then((layerView)=>{
+            function incrementHeightByFrame(){
+                if(opacity>=finalHeight&&animation){
+                    animation = false;
+                    return
+                }
+               layer.opacity = opacity
+                opacity+=0.05;
+                requestAnimationFrame(incrementHeightByFrame)
+            }
+            // requestAnimationFrame(incrementHeightByFrame);
+
+            watchUtils.whenFalseOnce(layerView, "updating", function(updating){
+              requestAnimationFrame(incrementHeightByFrame);
+            });
+        })
+        // 
     },
     drawFromUrl(){
       const layer = new FeatureLayer({

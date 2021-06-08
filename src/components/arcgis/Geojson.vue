@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-31 15:46:36
- * @LastEditTime: 2021-06-01 15:05:01
+ * @LastEditTime: 2021-06-07 14:21:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /hello-vue3/src/components/arcgis/Geojson.vue
@@ -144,10 +144,18 @@ export default {
     drawGeoJson(){
         console.log(window.location)
         // const layer = new GeoJSONLayer({
-        //     url:require('/public/json/山西省.json')
+        //     // url:require('/public/json/山西省.json')
+        //     url:'http://172.26.1.128:8092/shanxi_0.geojson',
+        //     // url:'/public/json/shanxi_0.json',
+        //     outFields:["*"],
+        //     id:"layer_shanxi",
         // })
+
         const layer = new FeatureLayer({
             url:"https://services3.arcgis.com/5Z5DSAn76ElDv7tg/arcgis/rest/services/%E5%B1%B1%E8%A5%BF%E7%9C%81/FeatureServer",
+            // url:'http://172.26.1.128:8092/shanxi_0.geojson',
+            // url:'../../../public/json/山西省_0.json',
+
             outFields:["*"],
             id:"layer_shanxi",
             renderer:{

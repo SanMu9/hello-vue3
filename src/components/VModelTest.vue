@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-14 09:27:52
+ * @LastEditTime: 2021-06-07 18:26:50
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /hello-vue3/src/components/VModelTest.vue
+-->
 <template>
     
     <label for="lastNmaeInput">姓</label>
@@ -6,9 +14,9 @@
     <label for="firstNameInput">名</label>
     <input type="text" id="firstNameInput" :value="firstName" @input="$emit('update:firstName',$event.target.value)">
     <br>
-    <label for="ageInput">年龄</label>
+    <!-- <label for="ageInput">年龄</label>
     <input type="number" id="ageInput" :value="age" @input="$emit('update:age',parseInt($event.target.value))">
-    <br>
+    <br> -->
     <label for="gameInput">游戏</label>
     <input type="text" id="gameInput" :value="game" @input="updateGame">
     <br>

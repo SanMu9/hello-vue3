@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-18 14:38:25
- * @LastEditTime: 2021-06-01 10:41:38
+ * @LastEditTime: 2021-06-04 14:15:48
  * @LastEditors: Please set LastEditors
  * @Description: mapboxgl绘制路线动画
  * @FilePath: /hello-vue3/src/components/mapbox/Route.vue
@@ -243,11 +243,11 @@ export default {
         realRouteGeoJson.features[0].geometry.coordinates.push(animatePointGeoJson.features[0].geometry.coordinates)
         map.getSource('animatePointLayer').setData(animatePointGeoJson);
         map.getSource('realRouteLayer').setData(realRouteGeoJson);
+        map.flyTo({ center: animatePointGeoJson.features[0].geometry.coordinates })
         if (this.isPlay) {
             requestAnimationFrame(this.animate);
         }
         this.counter = this.counter + 1;
-        map.flyTo({ center: animatePointGeoJson.features[0].geometry.coordinates })
 
     },
 
