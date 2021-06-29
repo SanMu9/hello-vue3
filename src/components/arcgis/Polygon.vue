@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-25 10:20:07
- * @LastEditTime: 2021-06-07 17:37:03
+ * @LastEditTime: 2021-06-16 15:29:35
  * @LastEditors: Please set LastEditors
  * @Description: ArcGIS API for JS FeatureLayer polygon-3d
  * @FilePath: /hello-vue3/src/components/arcgis/Polygon.vue
@@ -16,6 +16,7 @@ import Map from "@arcgis/core/Map";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Camera from "@arcgis/core/Camera";
 import SceneView from "@arcgis/core/views/SceneView";
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 
 export default {
   data() {
@@ -96,11 +97,11 @@ export default {
       window.view = view;
 
       view.when(() => {
-        this.goToCamera("JCJArea").then(() => {
+        // this.goToCamera("JCJArea").then(() => {
           this.drawChinaOutline()
-          this.drawJCJOutline();
-          this.drawFromUrl();
-        });
+          // this.drawJCJOutline();
+          // this.drawFromUrl();
+        // });
       });
     },
     goToCamera(type) {
@@ -110,6 +111,10 @@ export default {
         speedFactor: 0.5,
         duration: 2000,
       });
+    },
+    drawYanChenOutline() {
+      // const geojson = require("/public/json/盐城市.json");
+
     },
     drawJCJOutline() {
       const geojson = require("/public/json/晋察冀片区_outline.json");
@@ -227,9 +232,14 @@ export default {
       window.view.map.add(layer)
       console.log(layer)
     },
+    drawGeoJson(){
+      
+    },
     drawChinaOutline(){
       const layer = new FeatureLayer({
-        url:"https://services3.arcgis.com/5Z5DSAn76ElDv7tg/arcgis/rest/services/chinaoutline/FeatureServer",
+        // url:"https://services3.arcgis.com/5Z5DSAn76ElDv7tg/arcgis/rest/services/%E7%9B%90%E5%9F%8E%E5%B8%82/FeatureServer",
+        url:"https://services3.arcgis.com/5Z5DSAn76ElDv7tg/arcgis/rest/services/yanchen/FeatureServer",
+        // url:"https://services3.arcgis.com/5Z5DSAn76ElDv7tg/arcgis/rest/services/chinaoutline/FeatureServer",
         renderer:{
           type:"simple",
           symbol:{

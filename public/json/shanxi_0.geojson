@@ -779,7 +779,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 0,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 1
+                "ObjectId": 1,
+                "count":27
             }
         },
         {
@@ -1830,7 +1831,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 1,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 2
+                "ObjectId": 2,
+                "count":24
             }
         },
         {
@@ -2333,7 +2335,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 2,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 3
+                "ObjectId": 3,
+                "count":14
             }
         },
         {
@@ -3224,7 +3227,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 3,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 4
+                "ObjectId": 4,
+                "count":166
             }
         },
         {
@@ -3899,7 +3903,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 4,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 5
+                "ObjectId": 5,
+                "count":48
             }
         },
         {
@@ -4662,7 +4667,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 5,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 6
+                "ObjectId": 6,
+                "count":17
             }
         },
         {
@@ -5925,7 +5931,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 6,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 7
+                "ObjectId": 7,
+                "count":84
             }
         },
         {
@@ -6712,7 +6719,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 7,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 8
+                "ObjectId": 8,
+                "count":80
             }
         },
         {
@@ -8015,7 +8023,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 8,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 9
+                "ObjectId": 9,
+                "count":15
             }
         },
         {
@@ -9182,7 +9191,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 9,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 10
+                "ObjectId": 10,
+                "count":103
             }
         },
         {
@@ -10369,7 +10379,8 @@
                 "parent": "{\"adcode\":140000}",
                 "subFeatureIndex": 10,
                 "acroutes": "[100000,140000]",
-                "ObjectId": 11
+                "ObjectId": 11,
+                "count":104
             }
         }
     ]
