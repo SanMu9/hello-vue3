@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 15:13:48
- * @LastEditTime: 2021-06-08 16:38:23
+ * @LastEditTime: 2021-07-05 17:44:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\router\index.js
@@ -27,7 +27,10 @@ const routes = [
       {
         path:"home",
         name:"Home",
-        component:() => import('../views/Home.vue')
+        component:() => import('../views/Home.vue'),
+      //   meta:{
+      //     keepAlive:true //需要被缓存的组件
+      //  },
       },
       {
         path: 'about',
@@ -40,7 +43,10 @@ const routes = [
       {
         path: 'setup',
         name: 'Setup',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Setup.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/Setup.vue'),
+      //   meta:{
+      //     keepAlive:true //需要被缓存的组件
+      //  },
       },
       {
         path: 'teleport',
@@ -167,6 +173,16 @@ const routes = [
     name: 'Tools',
     component: () => import('../views/Tools.vue')
   },
+  {
+    path:"/customCounter",
+    name:'CustomCounter',
+    component: ()=> import('../components/custom/CustomCounter.vue')
+  },
+  {
+    path:"/customNumber",
+    name:'CustomNumber',
+    component: ()=> import('../components/custom/CustomNumber.vue')
+  }
 ]
 
 const router = createRouter({
