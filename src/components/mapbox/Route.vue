@@ -264,7 +264,7 @@ export default {
         for(let i = 0; i< this.aLength-1;i++) {
             var from = turf.point(route.geometry.coordinates[i]);
             var to = turf.point(route.geometry.coordinates[i + 1]);
-            let lDistance = turf.distance(from, to, units);
+            let lDistance = turf.distance(from, to, {units});
             if (i == 0) {
                 newroute.geometry.coordinates.push(route.geometry.coordinates[0])
             }
@@ -285,7 +285,7 @@ export default {
         var route = turf.lineString([from.geometry.coordinates, to.geometry.coordinates])
         for (let i = 1; i <= step; i++) {
             let nlength = i * splitLength
-            let pnt = turf.along(route, nlength, units);
+            let pnt = turf.along(route, nlength, {units});
             rings.push(pnt.geometry.coordinates)
         }
         if (leftLength > 0) {

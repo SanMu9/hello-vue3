@@ -182,6 +182,22 @@ const routes = [
     path:"/customNumber",
     name:'CustomNumber',
     component: ()=> import('../components/custom/CustomNumber.vue')
+  },
+  {
+    path:'/three',
+    name:'Three',
+    component: () => import('../views/Three.vue'),
+    children:[
+        {
+          path:"",
+          redirect:'/three/models',
+        },
+        {
+          path:'models',
+          name:'three-models',
+          component: ()=> import('../components/three/Models.vue')
+        },
+    ]
   }
 ]
 
