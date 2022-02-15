@@ -23,7 +23,6 @@ export default {
             this.initRender();
 
             // renderer.setClearColorHex();
-            
 
             axes = new THREE.AxisHelper(20);
             scene.add(axes);
@@ -128,7 +127,7 @@ export default {
                     // action.play();
                     console.log(object)
                     _this.setScaleToFitSize(object)
-
+                    object.position.set(200,0,0)
                     // object.scale = new THREE.Vector3(4,4,4)
                     object.traverse( function ( child ) {
 

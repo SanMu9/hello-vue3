@@ -17,6 +17,7 @@
           <router-link to="points">点</router-link>
           <router-link to="geojson">交互</router-link>
           <router-link to="polygonAnimation">polygon动画</router-link>
+          <router-link to="arcgis-bim">BIM</router-link>
 
       </div>
   </div>

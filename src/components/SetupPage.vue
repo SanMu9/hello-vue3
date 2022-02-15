@@ -3,11 +3,18 @@
     <div>{{detailStr}}</div>
     <p>{{hobbyName}}</p>
     <p>{{otherData.msg}}</p>
+    <button @click="test">测试</button>
 </template>
 
 <script>
-import {toRefs} from 'vue';
+import {computed, toRefs, reactive} from 'vue';
 import getHobbyInfo from '@/assets/js/setupFunc.js';
+let  objectData=reactive({
+            count:1,
+            msg:'ha'
+        })
+objectData.value = computed(()=>(objectData.msg+objectData.count))
+
 export default {
     props:{
         hobbyType:{
@@ -45,7 +52,27 @@ export default {
         return {
             info,
             detailStr,
-            hobbyDetails
+            hobbyDetails,
+            // objectData:{
+            //     count:1,
+            //     msg:'ha'
+            // }
+        }
+    },
+    data(){
+        return {
+            // objectData:{
+            //     count:1,
+            //     msg:'ha'
+            // }
+        }
+    },
+    methods:{
+        test(){
+            objectData.msg += 'ha'
+            objectData.count+=1;
+            
+            console.log(objectData)
         }
     },
     mounted(){

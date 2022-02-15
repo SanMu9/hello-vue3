@@ -6,7 +6,6 @@
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\router\index.js
  */
-import { validateId } from '@turf/helpers'
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '../views/Index.vue'
 
@@ -109,6 +108,16 @@ const routes = [
         path:'buildings',
         name:'mapbox-buildings',
         component: ()=> import('../components/mapbox/Buildings.vue')
+      },
+      {
+        path:'terrainElevation',
+        name:'mapbox-terrain-elevation',
+        component: ()=> import('../components/mapbox/TerrainElevation.vue')
+      },
+      {
+        path:'wms',
+        name:'mapbox-wms-source',
+        component: ()=> import('../components/mapbox/WMS.vue')
       }
   ]
   },
@@ -151,6 +160,11 @@ const routes = [
         name:'arcgis-polygonAnimation',
         component: ()=> import('../components/arcgis/PolygonAnimation.vue')
       },
+      {
+        path:'arcgis-bim',
+        name:'arcgis-bim',
+        component: ()=> import('../components/arcgis/Building.vue')
+      },
     ]
   },
   {
@@ -184,6 +198,11 @@ const routes = [
     component: ()=> import('../components/custom/CustomNumber.vue')
   },
   {
+    path:"/openLayers",
+    name:'OpenLayers',
+    component: ()=> import('../components/openlayers/base.vue')
+  },
+  {
     path:'/three',
     name:'Three',
     component: () => import('../views/Three.vue'),
@@ -196,6 +215,11 @@ const routes = [
           path:'models',
           name:'three-models',
           component: ()=> import('../components/three/Models.vue')
+        },
+        {
+          path:'addImages',
+          name:'three-addImages',
+          component: ()=> import('../components/three/AddImage.vue')
         },
     ]
   }

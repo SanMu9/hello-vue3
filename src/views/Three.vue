@@ -1,16 +1,25 @@
 <template>
   <div class="three-container">
     <router-view></router-view>
+    <!-- <my-router-nav></my-router-nav> -->
     <div class="nav">
         <!-- <button @click="jump">!!!!</button> -->
         <router-link :to="{name:'three-models'}">模型载入</router-link>
+        <router-link :to="{name:'three-addImages'}">addImage</router-link>
     </div>
     </div>
 </template>
 
 <script>
+import MyRouterNav from '../components/custom/MyRouterNav.vue'
 
 export default {
+  components: { MyRouterNav },
+  methods:{
+    //   jump(){
+    //       this.$router.push({name:'three-addImages'})
+    //   }
+  }
 
 }
 </script>

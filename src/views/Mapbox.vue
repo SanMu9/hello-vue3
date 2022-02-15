@@ -17,6 +17,9 @@
           <router-link to="polygon">地图下钻</router-link>
           <router-link to="cluster">聚合点</router-link>
           <router-link to="buildings">3D建筑</router-link>
+          <router-link to="terrainElevation">地形线路</router-link>
+          <router-link to="wms">WMS图层服务</router-link>
+
       </div>
       <!-- <Route></Route> -->
       <!-- <Points></Points> -->
