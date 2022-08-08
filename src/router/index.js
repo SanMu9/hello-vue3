@@ -200,7 +200,40 @@ const routes = [
   {
     path:"/openLayers",
     name:'OpenLayers',
-    component: ()=> import('../components/openlayers/base.vue')
+    component: ()=> import('../views/OpenLayers.vue'),
+    children:[
+      {
+        path:"",
+        redirect:'/openLayers/blueMap',
+      },
+      {
+        path:"customColor",
+        name:'ol-custom-color',
+        component: ()=> import('../components/openlayers/colorManipulation.vue')
+      },
+      {
+        path:"blueMap",
+        name:'ol-bluemap',
+        component: ()=> import('../components/openlayers/blueMap.vue')
+      },
+      {
+        path:'polygon',
+        name:'ol-polygon',
+        component: ()=> import('../components/openlayers/polygon.vue')
+      },
+      {
+
+        path:'geojson',
+        name:'ol-geojson',
+        component: ()=> import('../components/openlayers/geojson.vue')
+      },
+      {
+
+        path:'demo',
+        name:'ol-demo',
+        component: ()=> import('../components/openlayers/demo.vue')
+      },
+    ]
   },
   {
     path:'/three',
@@ -222,7 +255,12 @@ const routes = [
           component: ()=> import('../components/three/AddImage.vue')
         },
     ]
-  }
+  },
+  {
+    path:"/h5player",
+    name:'H5Player',
+    component: ()=> import('../views/H5Player.vue')
+  },
 ]
 
 const router = createRouter({

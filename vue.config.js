@@ -12,19 +12,27 @@ module.exports = {
 
     //是否使用eslint
     lintOnSave: false,
-    // devServer: {
-    //     proxy: {
-    //         '/api': {
-    //             target: 'http://applyrecordadmin.ztbory.com', //接口域名
-    //             changeOrigin: true,             //是否跨域
-    //             ws: true,                       //是否代理 websockets
-    //             secure: true,                   //是否https接口
-    //             pathRewrite: {                  //路径重置
-    //                 '^/api': ''
-    //             }
-    //         }
-    //     }
-    // },
+    devServer: {
+        proxy: {
+            // '/api': {
+            //     target: 'http://applyrecordadmin.ztbory.com', //接口域名
+            //     changeOrigin: true,             //是否跨域
+            //     ws: true,                       //是否代理 websockets
+            //     secure: true,                   //是否https接口
+            //     pathRewrite: {                  //路径重置
+            //         '^/api': ''
+            //     }
+            // }
+            '/tiandi':{
+                target:'http://t7.tianditu.com/',
+                changeOrigin:true,
+                ws:true,
+                pathRewrite: {
+                  '^/tiandi': ''  //请求的时候使用这个api就可以
+                }
+            }
+        }
+    },
     configureWebpack: config => {
         if (process.env.NODE_ENV === 'production') {
         config.optimization.minimizer[0].options.terserOptions.compress.warnings = false

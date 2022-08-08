@@ -21,7 +21,7 @@ import Point from 'ol/geom/Point';
 import Feature from 'ol/Feature';
 import 'ol/ol.css';
 import VectorSource from 'ol/source/Vector';
-import gifler from 'gifler'
+// import gifler from 'gifler'
 import Overlay from 'ol/Overlay';
 import { fromLonLat } from "ol/proj";
 export default {
@@ -117,13 +117,11 @@ export default {
             })
             baseMap.addLayer(pointLayer)
             baseMap.addOverlay(pointOverlay)
-            
-            
         }
     },
     mounted(){
         this.initMap();
-        console.log(gifler)
+        // console.log(gifler)
     },
 }
 </script>

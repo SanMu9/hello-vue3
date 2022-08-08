@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@arcgis/core": "^4.19.3",
+    "@liveqing/liveplayer": "^2.6.7",
     "@turf/turf": "^6.3.0",
     "axios": "^0.21.1",
     "coordtransform": "^2.1.2",
