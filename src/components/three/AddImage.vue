@@ -5,8 +5,12 @@
 </template>
 
 <script>
-import * as THREE from '../../../public/three/three.module';
-import '../../../public/three/controls/OrbitControls';
+// import * as THREE from '../../../public/three/three.module';
+// import '../../../public/three/controls/OrbitControls';
+
+import * as THREE from 'three'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 // import {FBXLoader} from '.../../../public/three/loaders/FBXLoader';
 
 let camera = null;
@@ -102,7 +106,7 @@ export default {
 
         },
         initControls(){
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls = new OrbitControls(camera, renderer.domElement);
             // 添加惯性
                 controls.enableDamping = true;
 

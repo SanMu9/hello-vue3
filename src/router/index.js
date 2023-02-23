@@ -254,6 +254,11 @@ const routes = [
           name:'three-addImages',
           component: ()=> import('../components/three/AddImage.vue')
         },
+        {
+          path:'lakeScene',
+          name:'three-lakeScene',
+          component: ()=> import('../components/three/LakeScene.vue')
+        },
     ]
   },
   {

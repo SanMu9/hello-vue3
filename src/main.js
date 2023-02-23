@@ -6,7 +6,8 @@ import store from './store'
 
 // import * as THREE from '../public/three/three.module';
 // window.THREE = THREE;
-
+// import ElementPlus from 'element-plus'
+// import 'element-plus/dist/index.css'
 
 createApp(App).use(store).use(router).mount('#app')
 // const path = require("path");

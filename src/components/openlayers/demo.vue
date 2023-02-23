@@ -436,4 +436,5 @@ export default {
   top: 100px;
   cursor: pointer;
 }
+
 </style>

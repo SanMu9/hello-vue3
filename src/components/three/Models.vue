@@ -7,7 +7,7 @@
 <script>
 import * as THREE from '../../../public/three/three.module';
 import '../../../public/three/controls/OrbitControls';
-import {FBXLoader} from '.../../../public/three/loaders/FBXLoader';
+import {FBXLoader} from '../../../public/three/loaders/FBXLoader';
 
 let camera = null;
 let scene = null;
@@ -84,10 +84,15 @@ export default {
             var ambientLight = new THREE.AmbientLight(ambiColor);
             scene.add(ambientLight);
 
+            // 环境光源 
+            //环境光:环境光颜色RGB成分分别和物体材质颜色RGB成分分别相乘 
+            ambientLight = new THREE.AmbientLight(0x444444, 1);
+            scene.add(ambientLight);   
 
-                const light = new THREE.PointLight(0xffff00, 2, 500);
-                light.position.set(0, 0, 0);
-                scene.add(light);
+            // 点光源
+            const light = new THREE.PointLight(0xffff00, 2, 500);
+            light.position.set(0, 0, 0);
+            scene.add(light);
 
             // 聚光灯光源
             var spotLight = new THREE.SpotLight(0xffffff);
@@ -95,6 +100,8 @@ export default {
             spotLight.castShadow = false;
             spotLight.lookAt(new THREE.Vector3(0,0,0))
             scene.add(spotLight);
+
+             
         },
         animate(){
             this.update()
@@ -127,7 +134,7 @@ export default {
                     // action.play();
                     console.log(object)
                     _this.setScaleToFitSize(object)
-                    object.position.set(200,0,0)
+                    object.position.set(0,0,0)
                     // object.scale = new THREE.Vector3(4,4,4)
                     object.traverse( function ( child ) {
 

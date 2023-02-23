@@ -6,6 +6,7 @@
         <!-- <button @click="jump">!!!!</button> -->
         <router-link :to="{name:'three-models'}">模型载入</router-link>
         <router-link :to="{name:'three-addImages'}">addImage</router-link>
+        <router-link :to="{name:'three-lakeScene'}">场景-湖泊</router-link>
     </div>
     </div>
 </template>
