@@ -49,6 +49,21 @@ export default {
         // 场景
         initScene() {
             scene = new THREE.Scene();
+
+             // create the ground plane
+            var planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
+            var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+            var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            plane.receiveShadow = false;
+                // rotate and position the plane
+            plane.rotation.x = -0.5 * Math.PI;
+            plane.position.x = 15;
+            plane.position.y = 0;
+            plane.position.z = 0;
+
+            // add the plane to the scene
+            scene.add(plane);
+
         },
         // 相机
         initCamera() {
@@ -86,7 +101,7 @@ export default {
 
             // 环境光源 
             //环境光:环境光颜色RGB成分分别和物体材质颜色RGB成分分别相乘 
-            ambientLight = new THREE.AmbientLight(0x444444, 1);
+            ambientLight = new THREE.AmbientLight(0xffffff, 1);
             scene.add(ambientLight);   
 
             // 点光源
@@ -94,12 +109,17 @@ export default {
             light.position.set(0, 0, 0);
             scene.add(light);
 
+
+
+
             // 聚光灯光源
             var spotLight = new THREE.SpotLight(0xffffff);
             spotLight.position.set(0, 700, 0);
             spotLight.castShadow = false;
             spotLight.lookAt(new THREE.Vector3(0,0,0))
             scene.add(spotLight);
+
+            
 
              
         },
@@ -134,7 +154,7 @@ export default {
                     // action.play();
                     console.log(object)
                     _this.setScaleToFitSize(object)
-                    object.position.set(0,0,0)
+                    // object.position.set(0,0,0)
                     // object.scale = new THREE.Vector3(4,4,4)
                     object.traverse( function ( child ) {
 
