@@ -259,6 +259,12 @@ const routes = [
           name:'three-lakeScene',
           component: ()=> import('../components/three/LakeScene.vue')
         },
+        {
+          path:'sky',
+          name:'three-sky',
+          component: ()=> import('../components/three/Sky.vue')
+        },
+        
     ]
   },
   {

@@ -7,6 +7,7 @@
         <router-link :to="{name:'three-models'}">模型载入</router-link>
         <router-link :to="{name:'three-addImages'}">addImage</router-link>
         <router-link :to="{name:'three-lakeScene'}">场景-湖泊</router-link>
+        <router-link :to="{name:'three-sky'}">天空盒</router-link>
     </div>
     </div>
 </template>
@@ -36,7 +37,12 @@ export default {
     color: #fff;
     text-align: center;
     top: 0;
-    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+    text-align: left;
 }
 .nav a{
     color:#fff;

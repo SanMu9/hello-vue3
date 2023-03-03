@@ -5,9 +5,14 @@
 </template>
 
 <script>
-import * as THREE from '../../../public/three/three.module';
-import '../../../public/three/controls/OrbitControls';
-import {FBXLoader} from '../../../public/three/loaders/FBXLoader';
+import * as THREE from 'three'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+
+
+// import * as THREE from '../../../public/three/three.module';
+// import '../../../public/three/controls/OrbitControls';
+// import {FBXLoader} from '../../../public/three/loaders/FBXLoader';
 
 let camera = null;
 let scene = null;
@@ -24,8 +29,8 @@ export default {
 
             // renderer.setClearColorHex();
 
-            axes = new THREE.AxisHelper(20);
-            scene.add(axes);
+            // axes = new THREE.AxisHelper(20);
+            // scene.add(axes);
             renderer.render(scene, camera);
             this.initOrbitControl();
             this.initLight();
@@ -78,7 +83,7 @@ export default {
             camera.lookAt(new THREE.Vector3(0,0,0));
         },
         initOrbitControl(){
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls = new OrbitControls(camera, renderer.domElement);
         },
         initLight(){
         //    const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x444444 );

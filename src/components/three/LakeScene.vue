@@ -27,7 +27,7 @@ onMounted(() => {
     0.1,
     1000
   );
-  camera.position.set(-3.23, 2.98, 4.06);
+  camera.position.set(5, 5, 5);
   camera.updateProjectionMatrix();
 
   // 初始化渲染器
@@ -50,6 +50,9 @@ onMounted(() => {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(-8, 2, 0);
   controls.enableDamping = true;
+
+  const axesHelper = new THREE.AxesHelper( 5 );
+  scene.add( axesHelper );
 
   let rgbeLoader = new RGBELoader();
   rgbeLoader.load("/textures/sky.hdr", (texture) => {
