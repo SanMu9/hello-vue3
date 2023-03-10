@@ -264,6 +264,11 @@ const routes = [
           name:'three-sky',
           component: ()=> import('../components/three/Sky.vue')
         },
+        {
+          path:'modelAnimate',
+          name:'three-modelAnimate',
+          component: ()=> import('../components/three/ModelAnimation.vue')
+        },
         
     ]
   },
