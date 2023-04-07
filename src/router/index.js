@@ -269,6 +269,11 @@ const routes = [
           name:'three-modelAnimate',
           component: ()=> import('../components/three/ModelAnimation.vue')
         },
+        {
+          path:'shaderMaterial',
+          name:'three-shaderMaterial',
+          component: ()=> import('../components/three/ShaderMaterial.vue')
+        },
         
     ]
   },

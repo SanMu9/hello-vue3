@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onBeforeUnmount} from "vue";
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -20,6 +20,9 @@ let container
 
 onMounted(()=>{
   init()
+})
+onBeforeUnmount(()=>{
+  gui.destroy()
 })
 
 function init(){

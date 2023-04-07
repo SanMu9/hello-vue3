@@ -9,6 +9,7 @@
         <router-link :to="{name:'three-lakeScene'}">场景-湖泊</router-link>
         <router-link :to="{name:'three-sky'}">天空盒</router-link>
         <router-link :to="{name:'three-modelAnimate'}">模型动画</router-link>
+        <router-link :to="{name:'three-shaderMaterial'}">ShaderMaterial</router-link>
     </div>
     </div>
 </template>

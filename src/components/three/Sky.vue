@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, onBeforeUnmount } from 'vue';
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Sky } from 'three/examples/jsm/objects/Sky';
@@ -13,11 +13,14 @@ let container;
 let camera, scene, renderer;
 let controls, sky, sun, moon;
 let gui = new dat.GUI()
-
+console.log(gui)
 // 场景初始化
 
 onMounted(() => {
   init()
+})
+onBeforeUnmount(()=>{
+  gui.destroy()
 })
 
 function init(){
@@ -110,6 +113,7 @@ function initSky(){
   guiChange()
   
 }
+
 
 </script>
 

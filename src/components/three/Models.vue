@@ -8,6 +8,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment'
 
 
 // import * as THREE from '../../../public/three/three.module';
@@ -23,9 +24,9 @@ const mixer = [];
 export default {
     methods:{
         init(){
+            this.initRender();
             this.initScene();
             this.initCamera();
-            this.initRender();
 
             // renderer.setClearColorHex();
 
@@ -54,20 +55,26 @@ export default {
         // 场景
         initScene() {
             scene = new THREE.Scene();
+            
+            const pmremGenerator = new THREE.PMREMGenerator( renderer );
+            scene.background = new THREE.Color( 0xbfe3dd );
+            scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture;
 
              // create the ground plane
-            var planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
-            var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
-            var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-            plane.receiveShadow = false;
-                // rotate and position the plane
-            plane.rotation.x = -0.5 * Math.PI;
-            plane.position.x = 15;
-            plane.position.y = 0;
-            plane.position.z = 0;
+            // var planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
+            // var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+            // var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            // plane.receiveShadow = false;
+            //     // rotate and position the plane
+            // plane.rotation.x = -0.5 * Math.PI;
+            // plane.position.x = 15;
+            // plane.position.y = 0;
+            // plane.position.z = 0;
 
-            // add the plane to the scene
-            scene.add(plane);
+            // // add the plane to the scene
+            // scene.add(plane);
+
+            
 
         },
         // 相机
@@ -165,9 +172,13 @@ export default {
 
                         if ( child.isMesh ) {
 
+                            child.frustumCulled = false
                             child.castShadow = true;
                             child.receiveShadow = true;
 
+                            // 模型自发光
+                            child.material.emissive = child.material.Color
+                            child.material.emissiveMap = child.material.map
                         }
 
                     } );
