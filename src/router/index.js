@@ -274,6 +274,11 @@ const routes = [
           name:'three-shaderMaterial',
           component: ()=> import('../components/three/ShaderMaterial.vue')
         },
+        {
+          path:'city',
+          name:'three-city',
+          component: ()=> import('../components/three/City.vue')
+        },
         
     ]
   },

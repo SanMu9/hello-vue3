@@ -7,13 +7,13 @@ import { onMounted, onBeforeUnmount} from "vue";
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { WaterShader,CustomShader,FireShader,CloudShader, } from "./lib/ShaderMateriel";
+import { WaterShader,CustomShader,FireShader,CloudShader, GridLightShader,GridLightShader2,FireworksShader,FireShader2} from "./lib/ShaderMateriel";
 let container;
 let camera, scene, renderer, clock;
 let controls
 let gui = new dat.GUI()
-let shaders = {WaterShader,CustomShader,FireShader,CloudShader}
-let guiShaderOpts = ['WaterShader','CustomShader','FireShader','CloudShader']
+let shaders = {WaterShader,CustomShader,FireShader,CloudShader,GridLightShader,GridLightShader2,FireworksShader,FireShader2}
+let guiShaderOpts = ['WaterShader','CustomShader','FireShader','FireShader2','CloudShader','GridLightShader','GridLightShader2','FireworksShader',]
 let shader = WaterShader
 onMounted(()=>{
   init()

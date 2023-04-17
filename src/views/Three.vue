@@ -10,6 +10,7 @@
         <router-link :to="{name:'three-sky'}">天空盒</router-link>
         <router-link :to="{name:'three-modelAnimate'}">模型动画</router-link>
         <router-link :to="{name:'three-shaderMaterial'}">ShaderMaterial</router-link>
+        <router-link :to="{name:'three-city'}">现代服务大厦</router-link>
     </div>
     </div>
 </template>
@@ -23,6 +24,8 @@ export default {
     //   jump(){
     //       this.$router.push({name:'three-addImages'})
     //   }
+  },
+  created(){
   }
 
 }
