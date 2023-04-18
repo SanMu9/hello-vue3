@@ -1,5 +1,10 @@
 <template>
-  <div id="city-container"></div>
+  <div>
+    <div id="city-container">
+    </div>
+    <div class="operation-btns"></div>
+  </div>
+
 </template>
 
 <script setup>
@@ -8,8 +13,6 @@ import { onMounted, onBeforeUnmount} from "vue";
 
 import * as THREE from "three";
 
-import { AmbientLight, DirectionalLight, Vector3,LinearFilter } from "three";
-
 
 onMounted(()=>{
   const dom = document.getElementById('city-container')
@@ -17,8 +20,13 @@ onMounted(()=>{
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #city-container{
   height: 100%;
 }
+.operation-btns{
+  position: absolute;
+  left: 0;
+}
+
 </style>
