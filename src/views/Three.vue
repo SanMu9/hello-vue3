@@ -11,6 +11,7 @@
         <router-link :to="{name:'three-modelAnimate'}">模型动画</router-link>
         <router-link :to="{name:'three-shaderMaterial'}">ShaderMaterial</router-link>
         <router-link :to="{name:'three-city'}">现代服务大厦</router-link>
+        <router-link :to="{name:'three-buildingFloor'}">楼栋分层</router-link>
     </div>
     </div>
 </template>

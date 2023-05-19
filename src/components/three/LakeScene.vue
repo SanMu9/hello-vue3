@@ -121,9 +121,9 @@ onMounted(() => {
   waterFolder.add(effectControl,'scale',1,10).onChange(function(value){
     water.material.uniforms['config'].value.w = value
   })
-  // waterFolder.add(effectControl,'flowSpeed',0,1,0.01).onChange(function(value){
-  //   water.material.uniforms['config'].value.x = value * new THREE.Clock().getDelta()
-  // })
+  waterFolder.add(effectControl,'flowSpeed',0,1,0.01).onChange(function(value){
+    water.material.uniforms['config'].value.x = value * new THREE.Clock().getDelta()
+  })
   waterFolder.add(effectControl,'flowX',-1,1,0.01).onChange(function(value){
     water.material.uniforms['flowDirection'].value.x = value
     water.material.uniforms['flowDirection'].value.normalize()

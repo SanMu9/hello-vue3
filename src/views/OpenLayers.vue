@@ -7,6 +7,7 @@
         <router-link :to="{name:'ol-bluemap'}">蓝色底图</router-link>
         <router-link :to="{name:'ol-geojson'}">geojson</router-link>
         <router-link :to="{name:'ol-demo'}">宁波市</router-link>
+        <router-link :to="{name:'ol-path-plan'}">路径规划</router-link>
     </div>
     </div>
 </template>

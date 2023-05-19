@@ -233,6 +233,11 @@ const routes = [
         name:'ol-demo',
         component: ()=> import('../components/openlayers/demo.vue')
       },
+      {
+        path:'pathPlan',
+        name:'ol-path-plan',
+        component: ()=> import('../components/openlayers/pathPlan.vue')
+      },
     ]
   },
   {
@@ -278,6 +283,11 @@ const routes = [
           path:'city',
           name:'three-city',
           component: ()=> import('../components/three/City.vue')
+        },
+        {
+          path:'buildingFloor',
+          name:'three-buildingFloor',
+          component: ()=> import('../components/three/BuildingFloor.vue')
         },
         
     ]
