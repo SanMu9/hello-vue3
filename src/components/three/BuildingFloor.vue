@@ -3,6 +3,12 @@
     <div id="canvas_modal" class="canvas-modal">
     <div id="css3-container" class="css3-container"></div>
     </div>
+    <div class="btns">
+      <div @click="(ev)=>selectFloor(1,ev)">1</div>
+      <div @click="(ev)=>selectFloor(14,ev)">14</div>
+      <div @click="(ev)=>selectFloor(25,ev)">25</div>
+      <div @click="(ev) =>backToInit(ev)">返回</div>
+    </div>
   </div>
 </template>
 
@@ -40,7 +46,13 @@ export default {
       raycaster: null,
       mouse: null,
       floorModal: false,
-      mesh: null
+      mesh: null,
+      floorViewData:{
+        14:{
+          camera:{"x":-0.4669912767529637,"y":2.767000905179911,"z":0.9258178935803294},
+          control:{"x":0.6357519782617699,"y":0.5155773118360302,"z":-1.0159543946494285}
+        }
+      }
     }
   },
   methods:{
@@ -82,6 +94,9 @@ export default {
         3.142211601778752,
         -2.0732301836198355
       );
+      this.setView(camera,control,
+      new THREE.Vector3(-1.8333141722719852,3.199398415052984,3.0639390786542915),
+      new THREE.Vector3(0.9866461002891399,1.4348797167431728,-1.4097978736828523))
 
       //  //平行光
       let AmbientLight1 = new THREE.AmbientLight("#fff", 1);
@@ -144,6 +159,17 @@ export default {
      
 
         window.addEventListener('mousemove',that.hoverHandler)
+        window.addEventListener('click',function(){
+          that.getViewInfo(camera,control)
+        })
+        window.addEventListener('resize',function(){
+          let screenDom = document.getElementById("canvas_modal");
+          let height = screenDom.offsetHeight;
+          let width = screenDom.offsetWidth;
+          renderer.setSize(width, height);
+          css3Renderer.setSize(width,height)
+
+        })
 
       })
 
@@ -152,6 +178,7 @@ export default {
         css3Renderer.render(scene, camera)
         control.update()
         requestAnimationFrame(render);
+        TWEEN.update()
       }
 
       render();
@@ -180,11 +207,11 @@ export default {
       if(intersects.length){
         let mesh = intersects[0].object
         let name = mesh.name
-        console.log("当前mesh",name,mesh.material)
+        // console.log("当前mesh",name,mesh.material)
         let group = modalMeshGroupMap.get(name)
         let floorName = group.name
-        console.log("当前楼层",group.name,group.children)
-        if(floorSelected&&floorName.name === floorName){
+        // console.log("当前楼层",group.name,group.children)
+        if(floorSelected&&floorSelected.name === floorName){
           return
         }
         // 还原material
@@ -197,7 +224,7 @@ export default {
         floorSelected = group
         let children = group.children
         for(let i=0;i<children.length;i++){
-          children[i].material = new THREE.MeshBasicMaterial({
+          children[i].material = new THREE.MeshLambertMaterial({
             color:new THREE.Color('#049EF4')
           })
         }
@@ -212,6 +239,85 @@ export default {
         }
       }
     },
+
+    selectFloor(floorNum,ev){
+      ev.preventDefault()
+      ev.stopPropagation()
+      let that = this 
+      let children = modalScene.children
+      const group = children.find(item => {
+        return floorNum == item.name.split("_")[1]
+      })
+
+      let view = that.floorViewData[floorNum]
+      if(view){
+        that.viewFlyTo(camera,control,view.camera,view.control,2000,function(){})
+      }
+
+      for(let i=0;i<children.length;i++){
+        let floor = children[i]
+        let floorNo = parseInt(children[i].name.split("_")[1] )
+        if(floorNo>floorNum){
+          gsap.to(floor.position, {
+            y: floorNo / 10,
+            duration: 3,
+            
+            onComplete: () => {
+              floor.visible = false
+              
+              // gsap.to(floor.position, {
+              //   y: 0,
+              //   duration: 3,
+              // });
+            }
+          });
+        }
+       
+      }
+    
+    },
+
+    getViewInfo(camera,controls){
+      console.log(JSON.stringify(camera.position));
+      console.log(JSON.stringify(controls.target))
+    },
+
+    setView(camera,controls,cameraPos,controlTarget){
+      camera.position.set(cameraPos.x,cameraPos.y,cameraPos.z)
+      controls.target.set(controlTarget.x,controlTarget.y,controlTarget.z)
+      controls.update()
+    },
+
+    viewFlyTo(camera,controls,cameraPos,controlTarget,duration,callback){
+      let pos = new THREE.Vector3(cameraPos.x,cameraPos.y,cameraPos.z)
+      let target = new THREE.Vector3(controlTarget.x,controlTarget.y,controlTarget.z)
+      let tween = new TWEEN.Tween(camera.position).to(cameraPos,duration)
+      let tween2 = new TWEEN.Tween(controls.target).to(controlTarget,duration)
+      tween.onComplete(function(){
+        console.log("动画完成")
+        if(callback){
+          callback()
+        }
+      })
+      tween.start()
+      tween2.start()
+    },
+
+    buildingFloorRecover(){
+      let floors = modalScene.children
+      for(let i=0;i<floors.length;i++){
+        floors[i].visible = true
+
+        floors[i].position.y = 0
+      }
+    },
+    backToInit(ev){
+      ev.stopPropagation()
+      this.buildingFloorRecover()
+      this.viewFlyTo(camera,control,new THREE.Vector3(-1.8333141722719852,3.199398415052984,3.0639390786542915),
+      new THREE.Vector3(0.9866461002891399,1.4348797167431728,-1.4097978736828523),2000)
+    }
+
   
     
     
@@ -236,6 +342,18 @@ export default {
     top: 0;
     pointer-events: none;
 
+  }
+  .btns{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: rgb(41, 194, 221);
+    >div{
+      border: 1px solid rgb(41, 194, 221);
+      padding: 0 2px;
+      margin: 3px 0;
+      cursor: pointer;
+    }
   }
 }
 </style>
