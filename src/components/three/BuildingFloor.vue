@@ -21,6 +21,14 @@ import { CSS3DRenderer,CSS3DObject } from "three/examples/jsm/renderers/CSS3DRen
 import gsap from "gsap";
 import TWEEN from "tween";
 
+let CUR_MODE = "BuildingSelected"
+let MODE_DESC = {
+  "init":"页面初始状态",
+  "FloorSelected":"选择了楼层",
+  "BuildingSelected":"选择了楼栋"
+}
+
+
 let scene = null
 let camera = null
 let renderer = null
@@ -36,6 +44,7 @@ let modalScene = null
 let floorSelected = null
 
 let floorMeshMatMap = new Map()
+
 export default {
   data() {
     return {
@@ -243,6 +252,7 @@ export default {
     selectFloor(floorNum,ev){
       ev.preventDefault()
       ev.stopPropagation()
+      CUR_MODE = "FloorSelected"
       let that = this 
       let children = modalScene.children
       const group = children.find(item => {
@@ -253,7 +263,6 @@ export default {
       if(view){
         that.viewFlyTo(camera,control,view.camera,view.control,2000,function(){})
       }
-
       for(let i=0;i<children.length;i++){
         let floor = children[i]
         let floorNo = parseInt(children[i].name.split("_")[1] )
@@ -263,7 +272,9 @@ export default {
             duration: 3,
             
             onComplete: () => {
-              floor.visible = false
+              if(CUR_MODE == 'FloorSelected'){
+                floor.visible = false
+              }
               
               // gsap.to(floor.position, {
               //   y: 0,
@@ -308,11 +319,24 @@ export default {
       for(let i=0;i<floors.length;i++){
         floors[i].visible = true
 
-        floors[i].position.y = 0
+        let floor = floors[i]
+        gsap.to(floor.position, {
+            y: 0,
+            duration: 3,
+            
+            onComplete: () => {
+              floor.visible = true
+              // gsap.to(floor.position, {
+              //   y: 0,
+              //   duration: 3,
+              // });
+            }
+        });
       }
     },
     backToInit(ev){
       ev.stopPropagation()
+      CUR_MODE = "BuildingSelected"
       this.buildingFloorRecover()
       this.viewFlyTo(camera,control,new THREE.Vector3(-1.8333141722719852,3.199398415052984,3.0639390786542915),
       new THREE.Vector3(0.9866461002891399,1.4348797167431728,-1.4097978736828523),2000)
