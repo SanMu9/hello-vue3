@@ -135,13 +135,14 @@ export default {
       css3Renderer.domElement.style.top = '0px';    
       document.getElementById('css3-container').appendChild(css3Renderer.domElement)
       
-      // let dom = document.createElement('div')
-      // dom.classList.add('three-div')
-      // let objectCss = new CSS3DObject(dom)
-      // objectCss.position.x = 0
-      // objectCss.position.y = 5
-      // objectCss.position.z = 0
-      // scene.add(objectCss)
+      let dom = document.createElement('div')
+      dom.classList.add('three-div')
+      let objectCss = new CSS3DObject(dom)
+      objectCss.position.x = 0
+      objectCss.position.y = 5
+      objectCss.position.z = 0
+      scene.add(objectCss)
+      console.log(objectCss)
       // 
 
 
@@ -167,11 +168,11 @@ export default {
         
      
 
-        window.addEventListener('mousemove',that.hoverHandler)
-        window.addEventListener('click',function(){
+        screenDom.addEventListener('mousemove',that.hoverHandler)
+        screenDom.addEventListener('click',function(){
           that.getViewInfo(camera,control)
         })
-        window.addEventListener('resize',function(){
+        screenDom.addEventListener('resize',function(){
           let screenDom = document.getElementById("canvas_modal");
           let height = screenDom.offsetHeight;
           let width = screenDom.offsetWidth;
@@ -212,41 +213,80 @@ export default {
       mouse.x = ((event.clientX ) / width) * 2 - 1;
       mouse.y = -((event.clientY ) / height) * 2 + 1;
       raycaster.setFromCamera(mouse,camera)
-      const intersects = raycaster.intersectObject(modalScene);
-      if(intersects.length){
-        let mesh = intersects[0].object
-        let name = mesh.name
-        // console.log("当前mesh",name,mesh.material)
-        let group = modalMeshGroupMap.get(name)
-        let floorName = group.name
-        // console.log("当前楼层",group.name,group.children)
-        if(floorSelected&&floorSelected.name === floorName){
-          return
-        }
-        // 还原material
-        if(floorSelected){
-          let children = floorSelected.children
-          for(let i=0;i<children.length;i++){
-            children[i].material = floorMeshMatMap.get(children[i].name)
+
+      if(CUR_MODE == 'BuildingSelected'){
+        const intersects = raycaster.intersectObject(modalScene);
+        if(intersects.length){
+          let mesh = intersects[0].object
+          let name = mesh.name
+          // console.log("当前mesh",name,mesh.material)
+          let group = modalMeshGroupMap.get(name)
+          let floorName = group.name
+          // console.log("当前楼层",group.name,group.children)
+          if(floorSelected&&floorSelected.name === floorName){
+            return
           }
-        }
-        floorSelected = group
-        let children = group.children
-        for(let i=0;i<children.length;i++){
-          children[i].material = new THREE.MeshLambertMaterial({
-            color:new THREE.Color('#049EF4')
-          })
-        }
-        
-      }else{
-         // 还原material
-        if(floorSelected){
-          let children = floorSelected.children
+          // 还原material
+          if(floorSelected){
+            let children = floorSelected.children
+            for(let i=0;i<children.length;i++){
+              children[i].material = floorMeshMatMap.get(children[i].name)
+            }
+          }
+          floorSelected = group
+          let children = group.children
           for(let i=0;i<children.length;i++){
-            children[i].material = floorMeshMatMap.get(children[i].name)
+            children[i].material = new THREE.MeshLambertMaterial({
+              color:new THREE.Color('#049EF4')
+            })
+          }
+          
+        }else{
+          // 还原material
+          if(floorSelected){
+            let children = floorSelected.children
+            for(let i=0;i<children.length;i++){
+              children[i].material = floorMeshMatMap.get(children[i].name)
+            }
           }
         }
       }
+      
+    },
+    clickHandler(event){
+      mouse.x = ((event.clientX ) / width) * 2 - 1;
+      mouse.y = -((event.clientY ) / height) * 2 + 1;
+      // 如果当前为 BuildingSelected 状态
+      if(CUR_MODE == 'BuildingSelected'){
+        raycaster.setFromCamera(mouse,camera)
+        const intersects = raycaster.intersectObject(modalScene);
+        if(intersects.length){
+          let mesh = intersects[0].object
+          let name = mesh.name
+          // console.log("当前mesh",name,mesh.material)
+          let group = modalMeshGroupMap.get(name)
+          let floorName = group.name
+          // console.log("当前楼层",group.name,group.children)
+          if(floorSelected&&floorSelected.name === floorName){
+            return
+          }
+          // 还原material
+          if(floorSelected){
+            let children = floorSelected.children
+            for(let i=0;i<children.length;i++){
+              children[i].material = floorMeshMatMap.get(children[i].name)
+            }
+          }
+          floorSelected = group
+          let children = group.children
+          for(let i=0;i<children.length;i++){
+            children[i].material = new THREE.MeshLambertMaterial({
+              color:new THREE.Color('#049EF4')
+            })
+          }
+      }
+    }
+      
     },
 
     selectFloor(floorNum,ev){
@@ -258,6 +298,7 @@ export default {
       const group = children.find(item => {
         return floorNum == item.name.split("_")[1]
       })
+      group.visible = true
 
       let view = that.floorViewData[floorNum]
       if(view){
@@ -275,11 +316,17 @@ export default {
               if(CUR_MODE == 'FloorSelected'){
                 floor.visible = false
               }
-              
-              // gsap.to(floor.position, {
-              //   y: 0,
-              //   duration: 3,
-              // });
+            }
+          });
+        }else if(floorNo<floorNum){
+          gsap.to(floor.position, {
+            y: (floorNo-floorNum)/10,
+            duration: 2,
+            
+            onComplete: () => {
+              if(CUR_MODE == 'FloorSelected'){
+                floor.visible = false
+              }
             }
           });
         }
