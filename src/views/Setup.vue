@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-14 09:27:52
+ * @LastEditTime: 2021-07-05 17:36:18
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /hello-vue3/src/views/Setup.vue
+-->
 <template>
     <div>
         <!-- <button @click="()=>++clickCount">{{clickCount}}</button> -->
@@ -32,6 +40,12 @@ export default {
     },
     methods:{
 
+    },
+    created(){
+        console.log("Setup created")
+    },
+    mounted() {
+        console.log("Setup mounted")
     }
 };
 </script>

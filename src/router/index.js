@@ -1,12 +1,11 @@
 /*
  * @Author: your name
  * @Date: 2021-01-06 15:13:48
- * @LastEditTime: 2021-06-08 16:38:23
+ * @LastEditTime: 2021-07-05 17:44:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \hello-vue3\src\router\index.js
  */
-import { validateId } from '@turf/helpers'
 import { createRouter, createWebHistory } from 'vue-router'
 import Index from '../views/Index.vue'
 
@@ -27,7 +26,10 @@ const routes = [
       {
         path:"home",
         name:"Home",
-        component:() => import('../views/Home.vue')
+        component:() => import('../views/Home.vue'),
+      //   meta:{
+      //     keepAlive:true //需要被缓存的组件
+      //  },
       },
       {
         path: 'about',
@@ -40,7 +42,10 @@ const routes = [
       {
         path: 'setup',
         name: 'Setup',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Setup.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/Setup.vue'),
+      //   meta:{
+      //     keepAlive:true //需要被缓存的组件
+      //  },
       },
       {
         path: 'teleport',
@@ -103,6 +108,16 @@ const routes = [
         path:'buildings',
         name:'mapbox-buildings',
         component: ()=> import('../components/mapbox/Buildings.vue')
+      },
+      {
+        path:'terrainElevation',
+        name:'mapbox-terrain-elevation',
+        component: ()=> import('../components/mapbox/TerrainElevation.vue')
+      },
+      {
+        path:'wms',
+        name:'mapbox-wms-source',
+        component: ()=> import('../components/mapbox/WMS.vue')
       }
   ]
   },
@@ -145,6 +160,11 @@ const routes = [
         name:'arcgis-polygonAnimation',
         component: ()=> import('../components/arcgis/PolygonAnimation.vue')
       },
+      {
+        path:'arcgis-bim',
+        name:'arcgis-bim',
+        component: ()=> import('../components/arcgis/Building.vue')
+      },
     ]
   },
   {
@@ -171,6 +191,116 @@ const routes = [
     path: '/tools',
     name: 'Tools',
     component: () => import('../views/Tools.vue')
+  },
+  {
+    path:"/customCounter",
+    name:'CustomCounter',
+    component: ()=> import('../components/custom/CustomCounter.vue')
+  },
+  {
+    path:"/customNumber",
+    name:'CustomNumber',
+    component: ()=> import('../components/custom/CustomNumber.vue')
+  },
+  {
+    path:"/openLayers",
+    name:'OpenLayers',
+    component: ()=> import('../views/OpenLayers.vue'),
+    children:[
+      {
+        path:"",
+        redirect:'/openLayers/blueMap',
+      },
+      {
+        path:"customColor",
+        name:'ol-custom-color',
+        component: ()=> import('../components/openlayers/colorManipulation.vue')
+      },
+      {
+        path:"blueMap",
+        name:'ol-bluemap',
+        component: ()=> import('../components/openlayers/blueMap.vue')
+      },
+      {
+        path:'polygon',
+        name:'ol-polygon',
+        component: ()=> import('../components/openlayers/polygon.vue')
+      },
+      {
+
+        path:'geojson',
+        name:'ol-geojson',
+        component: ()=> import('../components/openlayers/geojson.vue')
+      },
+      {
+
+        path:'demo',
+        name:'ol-demo',
+        component: ()=> import('../components/openlayers/demo.vue')
+      },
+      {
+        path:'pathPlan',
+        name:'ol-path-plan',
+        component: ()=> import('../components/openlayers/pathPlan.vue')
+      },
+    ]
+  },
+  {
+    path:'/three',
+    name:'Three',
+    component: () => import('../views/Three.vue'),
+    children:[
+        {
+          path:"",
+          redirect:'/three/models',
+        },
+        {
+          path:'models',
+          name:'three-models',
+          component: ()=> import('../components/three/Models.vue')
+        },
+        {
+          path:'addImages',
+          name:'three-addImages',
+          component: ()=> import('../components/three/AddImage.vue')
+        },
+        {
+          path:'lakeScene',
+          name:'three-lakeScene',
+          component: ()=> import('../components/three/LakeScene.vue')
+        },
+        {
+          path:'sky',
+          name:'three-sky',
+          component: ()=> import('../components/three/Sky.vue')
+        },
+        {
+          path:'modelAnimate',
+          name:'three-modelAnimate',
+          component: ()=> import('../components/three/ModelAnimation.vue')
+        },
+        {
+          path:'shaderMaterial',
+          name:'three-shaderMaterial',
+          component: ()=> import('../components/three/ShaderMaterial.vue')
+        },
+        {
+          path:'city',
+          name:'three-city',
+          component: ()=> import('../components/three/City.vue')
+        },
+        {
+          path:'buildingFloor',
+          name:'three-buildingFloor',
+          component: ()=> import('../components/three/BuildingFloor.vue')
+        },
+        
+    ]
+  },
+  {
+    path:"/h5player",
+    name:'H5Player',
+    component: ()=> import('../views/H5Player.vue')
   },
 ]
 

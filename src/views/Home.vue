@@ -39,10 +39,27 @@ export default {
       }
     },
     mounted(){
-      console.log(this)
+      // console.log(this)
     }
     // components: {
     //   HelloWorld
     // }
 };
+</script>
+
+<script setup>
+import {ref, reactive, toRef} from 'vue'
+// reactive 返回'对象'的响应式副本
+const count = ref(0)
+const counter = reactive({count})
+
+count.value++
+console.log(counter.count) // 1
+
+const obj = reactive({a:1,b:2})
+const obj_a = toRef(obj,'a')
+obj_a.value++
+console.log(obj.a) // 2
+
+
 </script>

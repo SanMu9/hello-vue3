@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2021-05-18 18:10:46
- * @LastEditTime: 2021-05-19 13:45:43
+ * @LastEditTime: 2021-06-11 19:36:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /hello-vue3/src/components/mapbox/Polygon.vue
@@ -128,8 +128,20 @@ export default {
             type:'fill',
             source:'source_region',
             paint:{
-              'fill-color':"blue",
-              'fill-opacity':0.3,
+              // 'fill-color':"blue",
+              'fill-color':[
+                        'case',
+                        ['boolean', ['feature-state', 'hover'], false],
+                        'blue',
+                        '#49c9e1'
+                    ],
+              // 'fill-opacity':0.3,
+              'fill-opacity':[
+                  'case',
+                  ['boolean', ['feature-state', 'hover'], false],
+                  1,
+                  0.3
+              ],
               'fill-outline-color':'#ffffff'
             }
           });
