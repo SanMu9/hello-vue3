@@ -315,6 +315,7 @@ export default {
             onComplete: () => {
               if(CUR_MODE == 'FloorSelected'){
                 floor.visible = false
+                floor.position.y = 0
               }
             }
           });
@@ -326,6 +327,7 @@ export default {
             onComplete: () => {
               if(CUR_MODE == 'FloorSelected'){
                 floor.visible = false
+                floor.position.y = 0
               }
             }
           });
