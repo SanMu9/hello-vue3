@@ -168,6 +168,11 @@ const routes = [
     ]
   },
   {
+    path: '/echart',
+    name: 'Echart',
+    component: () => import('../views/echarts.vue')
+  },
+  {
     path: '/mapbox2',
     name: 'Mapbox2',
     component: () => import('../views/MapboxDemo.vue')
