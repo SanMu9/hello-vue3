@@ -18,6 +18,7 @@ onMounted(()=>{
   const dom = document.getElementById('city-container')
     window['scene3d'] = new SceneClass('city-container')
     window['scene3d'].load()
+
     // window['scene3d'].initMouseEvent()
     // window['scene3d'].createWaterPlane()
 

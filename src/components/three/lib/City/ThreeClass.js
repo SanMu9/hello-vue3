@@ -413,7 +413,6 @@ class ThreeClass {
   }
 
   getCamera() {
-    console.log(this.camera);
     console.log(JSON.stringify(this.camera.position));
     console.log(JSON.stringify(this.controls.target))
   }

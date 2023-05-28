@@ -678,28 +678,43 @@ class SceneClass extends ThreeClass {
       this.container.addEventListener('mousedown', this.onMousedown.bind(this), false);
     }
     onMouseUp(event) {
-     this.getCamera()
-      var that=this
-      if(event.button == 0) {
-        that.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        that.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        let raycaster = new THREE.Raycaster();
+    //  this.getCamera()
+    //   var that=this
+    //   if(event.button == 0) {
+    //     that.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    //     that.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    //     let raycaster = new THREE.Raycaster();
 
-        raycaster.setFromCamera(that.mouse,this.camera);
-        let intersects = raycaster.intersectObjects(this.scene.children, true);
-        var geosp = new THREE.SphereGeometry(0.5, 5, 5);
-        var matsp=new THREE.MeshBasicMaterial({
-            color:'lightgreen'
-        })
-        var meshsp=new THREE.Mesh(geosp,matsp)
-          meshsp.position.copy(new THREE.Vector3(intersects[0].point.x,intersects[0].point.y,intersects[0].point.z))
-          this.scene.add(meshsp)
-          // console.log(intersects[0].point.x,intersects[0].point.y,intersects[0].point.z,intersects[0])
+    //     raycaster.setFromCamera(that.mouse,this.camera);
+    //     let intersects = raycaster.intersectObjects(this.scene.children, true);
+    //     var geosp = new THREE.SphereGeometry(0.5, 5, 5);
+    //     var matsp=new THREE.MeshBasicMaterial({
+    //         color:'lightgreen'
+    //     })
+    //     var meshsp=new THREE.Mesh(geosp,matsp)
+    //       meshsp.position.copy(new THREE.Vector3(intersects[0].point.x,intersects[0].point.y,intersects[0].point.z))
+    //       this.scene.add(meshsp)
+    //       // console.log(intersects[0].point.x,intersects[0].point.y,intersects[0].point.z,intersects[0])
         
+    //   }
+
+    }
+    onMousedown(event){
+      event.preventDefault()
+      this.getCamera()
+      let mouse = new THREE.Vector3()
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      let raycaster = new THREE.Raycaster();
+      let intersects = raycaster.intersectObjects(
+        this.scene.children,
+        true
+      );
+      if(intersects[0]){
+        console.log("当前鼠标位置",JSON.stringify(intersects[0].point))
       }
 
     }
-    onMousedown(){}
     createWaterPlane(){
       let pos = [
         [-9,0],

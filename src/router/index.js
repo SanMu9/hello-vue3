@@ -289,6 +289,16 @@ const routes = [
           name:'three-buildingFloor',
           component: ()=> import('../components/three/BuildingFloor.vue')
         },
+        {
+          path:'multiScenes',
+          name:'three-multipleScenes',
+          component: ()=> import('../components/three/MultipleScenes.vue')
+        },
+        {
+          path:'deviceDot',
+          name:'three-deviceDot',
+          component: ()=> import('../components/three/DeviceDot.vue')
+        },
         
     ]
   },

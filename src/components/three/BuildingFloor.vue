@@ -8,6 +8,7 @@
       <div @click="(ev)=>selectFloor(14,ev)">14</div>
       <div @click="(ev)=>selectFloor(25,ev)">25</div>
       <div @click="(ev) =>backToInit(ev)">返回</div>
+      <div @click="(ev) => updateControlTargetPoint(ev)">显示视角中心</div>
     </div>
   </div>
 </template>
@@ -20,6 +21,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { CSS3DRenderer,CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer";
 import gsap from "gsap";
 import TWEEN from "tween";
+import * as dat from 'dat.gui'
 
 let CUR_MODE = "BuildingSelected"
 let MODE_DESC = {
@@ -28,6 +30,7 @@ let MODE_DESC = {
   "BuildingSelected":"选择了楼栋"
 }
 
+let gui = new dat.GUI()
 
 let scene = null
 let camera = null
@@ -44,6 +47,21 @@ let modalScene = null
 let floorSelected = null
 
 let floorMeshMatMap = new Map()
+
+let controlTargetPoint = null
+
+let meshLambertMaterial = new THREE.MeshLambertMaterial({
+  color:new THREE.Color('#049EF4')
+})
+console.log(meshLambertMaterial)
+let MeshLambertMaterialControl = new function(){
+    this.opacity = meshLambertMaterial.opacity
+    this.transparent = meshLambertMaterial.transparent
+    this.emissive = meshLambertMaterial.emissive.getHex();
+    // this.ambient = meshLambertMaterial.ambient.getHex();
+    this.side = "front";
+    this.color = meshLambertMaterial.color.getStyle();
+}
 
 export default {
   data() {
@@ -83,7 +101,7 @@ export default {
         3.531545912723859,
         4.387892116312748
       );
-      scene.add(camera);
+      // scene.add(camera);
 
       // camera.position.set(10, 10, 10);
       // 创建渲染器
@@ -163,6 +181,7 @@ export default {
         gltf.scene.scale.set(1, 1, 1);
         gltf.scene.position.set(0, 0, 0)
         scene.add(gltf.scene);
+        
         that.initMehGroupMap(gltf.scene)
         console.log(modalMeshGroupMap)
         
@@ -183,6 +202,8 @@ export default {
 
       })
 
+      this.addMeshLambertMaterialControl()
+
       function render() {
         renderer.render(scene, camera);
         css3Renderer.render(scene, camera)
@@ -192,6 +213,7 @@ export default {
       }
 
       render();
+      this.setControlTarget()
 
     },
     initMehGroupMap(arr){
@@ -201,6 +223,10 @@ export default {
         if(group.type === 'Mesh'){
           let name = group.name
           modalMeshGroupMap.set(name,arr)
+          console.log(group.material)
+          // group.material.transparent = true
+          // group.material.opacity = 0.5
+          // group.material = meshLambertMaterial
           floorMeshMatMap.set(name,group.material)
         }else{
           if(group.children){
@@ -389,10 +415,74 @@ export default {
       this.buildingFloorRecover()
       this.viewFlyTo(camera,control,new THREE.Vector3(-1.8333141722719852,3.199398415052984,3.0639390786542915),
       new THREE.Vector3(0.9866461002891399,1.4348797167431728,-1.4097978736828523),2000)
-    }
+    },
 
-  
-    
+    setControlTarget(){
+      const target = JSON.parse(JSON.stringify(control.target))
+      
+      var geosp = new THREE.SphereGeometry(0.1, 5, 5);
+      var matsp = new THREE.MeshBasicMaterial({
+        color: "lightgreen",
+      });
+      controlTargetPoint = new THREE.Mesh(geosp, matsp);
+      controlTargetPoint.position.copy(
+        new THREE.Vector3(
+          target.x,
+          target.y,
+          target.z
+        )
+      );
+      scene.add(controlTargetPoint);
+    },
+
+    updateControlTargetPoint(ev){
+      ev.stopPropagation()
+      const target = JSON.parse(JSON.stringify(control.target))
+      controlTargetPoint.position.copy(
+        new THREE.Vector3(
+          target.x,
+          target.y,
+          target.z
+        )
+      );
+    },
+
+    addMeshLambertMaterialControl(){
+      let control = gui.addFolder("LambertMaterial")
+      control.add(MeshLambertMaterialControl,'opacity',0,1).onChange(function(e){
+        meshLambertMaterial.opacity = e
+      })
+      control.add(MeshLambertMaterialControl, 'transparent').onChange(function (e) {
+          meshLambertMaterial.transparent = e
+      });
+      
+      // control.addColor(MeshLambertMaterialControl, 'ambient').onChange(function (e) {
+      //     meshLambertMaterial.ambient = new THREE.Color(e)
+      // });
+      control.addColor(MeshLambertMaterialControl, 'emissive').onChange(function (e) {
+          meshLambertMaterial.emissive = new THREE.Color(e)
+      });
+      control.add(MeshLambertMaterialControl, 'side', ["front", "back", "double"]).onChange(function (e) {
+          console.log(e);
+          switch (e) {
+              case "front":
+                  meshLambertMaterial.side = THREE.FrontSide;
+                  break;
+              case "back":
+                  meshLambertMaterial.side = THREE.BackSide;
+                  break;
+              case "double":
+                  meshLambertMaterial.side = THREE.DoubleSide;
+                  break;
+          }
+          meshLambertMaterial.needsUpdate = true;
+
+      });
+      control.addColor(MeshLambertMaterialControl, 'color').onChange(function (e) {
+          meshLambertMaterial.color.setStyle(e)
+      });
+
+    }
     
   },
   mounted(){

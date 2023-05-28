@@ -12,6 +12,8 @@
         <router-link :to="{name:'three-shaderMaterial'}">ShaderMaterial</router-link>
         <router-link :to="{name:'three-city'}">现代服务大厦</router-link>
         <router-link :to="{name:'three-buildingFloor'}">楼栋分层</router-link>
+        <router-link :to="{name:'three-multipleScenes'}">多场景</router-link>
+        <router-link :to="{name:'three-deviceDot'}">设备打点</router-link>
     </div>
     </div>
 </template>
@@ -40,7 +42,8 @@ export default {
 }
 .nav{
     position: fixed;
-    color: #fff;
+    // color: #fff;
+    color:rgb(36, 247, 247);
     text-align: center;
     top: 0;
     left: 0;
@@ -49,10 +52,12 @@ export default {
     height: 100%;
     overflow: auto;
     text-align: left;
+    z-index:999;
 }
 .nav a{
-    color:#fff;
+    // color:#fff;
     padding: 0 5px;
+    color:rgb(36, 247, 247)
 }
 .nav a:active{
     color: #fff;
