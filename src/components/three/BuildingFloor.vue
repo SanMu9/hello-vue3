@@ -63,6 +63,13 @@ let MeshLambertMaterialControl = new function(){
     this.color = meshLambertMaterial.color.getStyle();
 }
 
+let buildingMaterial = new THREE.MeshLambertMaterial({
+      color:new THREE.Color('#3f74a3'),
+      opacity:0.6,
+      transparent:true,
+      side:THREE.DoubleSide,
+    })
+
 export default {
   data() {
     return {
@@ -125,6 +132,7 @@ export default {
       new THREE.Vector3(-1.8333141722719852,3.199398415052984,3.0639390786542915),
       new THREE.Vector3(0.9866461002891399,1.4348797167431728,-1.4097978736828523))
 
+      scene.add(new THREE.AxesHelper(100,100,100))
       //  //平行光
       let AmbientLight1 = new THREE.AmbientLight("#fff", 1);
       scene.add(AmbientLight1);
@@ -172,8 +180,23 @@ export default {
       let that = this;
 
       
+      // loader.load("/models/w03_2.glb",gltf => {
+      //   let buildingMaterial = new THREE.MeshLambertMaterial({
+      //     color:new THREE.Color('#3f74a3'),
+      //     opacity:0.2,
+      //     transparent:true,
+      //     side:THREE.DoubleSide,
+      //   })
+      //   gltf.scene.scale.set(1, 1, 1);
+      //   gltf.scene.position.set(0, 0, 0)
+      //   scene.add(gltf.scene);
+      //   gltf.scene.traverse(obj => {
+      //     obj.material = buildingMaterial
+      //   })
+      // })
+      
 
-      loader.load("/models/w03.glb",(gltf) => {
+      loader.load("/models/w03_1.glb",(gltf) => {
         console.log("模型加载完成",gltf)
         gltf.scene.name = 'floor'
         modalScene = gltf.scene
@@ -181,11 +204,13 @@ export default {
         gltf.scene.scale.set(1, 1, 1);
         gltf.scene.position.set(0, 0, 0)
         scene.add(gltf.scene);
-        
+
+        // gltf.scene.traverse(obj => {
+        //   obj.material.opacity = 0.5
+        // })
+
         that.initMehGroupMap(gltf.scene)
         console.log(modalMeshGroupMap)
-        
-     
 
         screenDom.addEventListener('mousemove',that.hoverHandler)
         screenDom.addEventListener('click',function(){
@@ -223,10 +248,19 @@ export default {
         if(group.type === 'Mesh'){
           let name = group.name
           modalMeshGroupMap.set(name,arr)
-          console.log(group.material)
+          // console.log(group.material)
           // group.material.transparent = true
           // group.material.opacity = 0.5
-          // group.material = meshLambertMaterial
+          group.material = meshLambertMaterial
+
+          // group.material = buildingMaterial
+          
+          // if(name.split("_")[0] === 'wall03'){
+          //   console.log(group,name)
+          //   group.material.opacity = 0
+          //   group.material.transparent = true
+          //   group.material.side = THREE.DoubleSide
+          // }
           floorMeshMatMap.set(name,group.material)
         }else{
           if(group.children){
