@@ -304,6 +304,11 @@ const routes = [
           name:'three-deviceDot',
           component: ()=> import('../components/three/DeviceDot.vue')
         },
+        {
+          path:'buildingScene',
+          name:'three-buildingScene',
+          component: () => import('../components/three/BuildingScene/BuildingScene.vue')
+        }
         
     ]
   },

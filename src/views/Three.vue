@@ -13,7 +13,8 @@
         <router-link :to="{name:'three-city'}">现代服务大厦</router-link>
         <router-link :to="{name:'three-buildingFloor'}">楼栋分层</router-link>
         <router-link :to="{name:'three-multipleScenes'}">多场景</router-link>
-        <router-link :to="{name:'three-deviceDot'}">设备打点</router-link>
+        <!-- <router-link :to="{name:'three-deviceDot'}">设备打点</router-link> -->
+        <router-link :to="{name:'three-buildingScene'}">大楼场景</router-link>
     </div>
     </div>
 </template>
