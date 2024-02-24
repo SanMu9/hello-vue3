@@ -203,6 +203,11 @@ const routes = [
     component: ()=> import('../components/custom/CustomNumber.vue')
   },
   {
+    path:"/customDemos",
+    name:'CustomDemos',
+    component: ()=> import('../components/custom/CustomDemos.vue')
+  },
+  {
     path:"/openLayers",
     name:'OpenLayers',
     component: ()=> import('../views/OpenLayers.vue'),
