@@ -15,6 +15,7 @@
         <router-link :to="{name:'three-multipleScenes'}">多场景</router-link>
         <!-- <router-link :to="{name:'three-deviceDot'}">设备打点</router-link> -->
         <router-link :to="{name:'three-buildingScene'}">大楼场景</router-link>
+        <router-link :to="{name:'three-pie3d'}">3D饼图</router-link>
     </div>
     </div>
 </template>

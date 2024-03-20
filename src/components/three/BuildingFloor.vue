@@ -112,8 +112,8 @@ export default {
 
       // camera.position.set(10, 10, 10);
       // 创建渲染器
-      renderer = new THREE.WebGLRenderer({ antialias: true });
-      let renderer = renderer
+      let renderer = new THREE.WebGLRenderer({ antialias: true });
+      // this.renderer = renderer
       renderer.setSize(width, height);
 
       screenDom.appendChild(renderer.domElement);

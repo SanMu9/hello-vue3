@@ -313,6 +313,11 @@ const routes = [
           path:'buildingScene',
           name:'three-buildingScene',
           component: () => import('../components/three/BuildingScene/BuildingScene.vue')
+        },
+        {
+          path:'pie3d',
+          name:'three-pie3d',
+          component: () => import('../components/three/Pie3D.vue')
         }
         
     ]
