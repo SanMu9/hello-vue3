@@ -13,6 +13,20 @@ let chart
 onMounted(()=>{
     container = document.getElementById('container')
     chart = new ThreePie3d(container)
+    let option = {
+        colors:['#FFCA27','#00BFFF','#DC143C','#42b983'],
+        maxHeight:100,
+        innerRadius:50,
+        outerRadius:100,
+        startAngle:0,
+        data:[
+            {name:"A",value:45},
+            {name:"B",value:90},
+            {name:"C",value:20},
+            {name:"D",value:80},
+        ]
+    }
+    chart.setOption(option)
 })
 
 </script>

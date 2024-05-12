@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
+import { getGradientShaderMaterial } from './shaderUtil.js';
+import { getColor } from './util.js'; 
 class ThreePie3d {
     constructor(dom) {
         this.container = dom
@@ -27,10 +28,17 @@ class ThreePie3d {
         this.scene = new THREE.Scene();
         const scene = this.scene
         const wrap = this.container
-        this.camera = new THREE.PerspectiveCamera(45, wrap.offsetWidth / wrap.offsetHeight, 0.1, 1000)
-        this.renderer = new THREE.WebGLRenderer();
+        // this.camera = new THREE.PerspectiveCamera(45, wrap.offsetWidth / wrap.offsetHeight, 0.1, 1000)
+        this.camera = new THREE.PerspectiveCamera(45, wrap.offsetWidth / wrap.offsetHeight, 1, 100000)
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+        });
+        this.renderer.setClearColor(0x000000, 0);
         const renderer = this.renderer
         renderer.setSize(wrap.offsetWidth, wrap.offsetHeight);
+        renderer.shadowMap.enable = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
         const camera = this.camera
         camera.position.x = 0;
@@ -48,6 +56,10 @@ class ThreePie3d {
         // 光线
         const ambientLight = new THREE.AmbientLight(0xffffff);
         scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight( 0xffffff, 0.1 );
+        dirLight.position.set( 400, 400,400 );
+        dirLight.castShadow = true;
+        scene.add(dirLight)
 
         animate()
 
@@ -61,7 +73,7 @@ class ThreePie3d {
 
         this.initHelper()
 
-        this.setOption()
+        // this.setOption()
 
     }
    
@@ -119,29 +131,14 @@ class ThreePie3d {
         scene.add(planeX_left);
         scene.add(planeX_right);
 
-        /* 四个包围面的位置 y轴向上5 */
-        // scene.traverse(function (object) {
-
-        //     if (object.isMesh) {
-
-        //         if (object.geometry.type === 'PlaneGeometry') {
-
-        //             object.position.y = 5;
-
-        //         }
-
-        //     }
-
-        // });
-
         // 红色代表 X 轴. 绿色代表 Y 轴. 蓝色代表 Z 轴.
         const axes = new THREE.AxesHelper(200);
         scene.add(axes)
 
     }
 
-    setOption(){
-        const option = this.option
+    setOption(option){
+        option = {...this.option,...option}
         let data = option.data
         let total = data.reduce((a,b) => {
             console.log(a.value,b.value)
@@ -184,6 +181,8 @@ class ThreePie3d {
         let {innerRadius,outerRadius,height,angle,startAngle,color} = data
         console.log(data)
 
+        let group = new THREE.Group() 
+        scene.add(group)
         // 上下面
         const geometry = new THREE.RingGeometry(
             innerRadius,
@@ -197,9 +196,9 @@ class ThreePie3d {
         let meshBottom = new THREE.Mesh(geometry,this.getMaterial(color))
         meshTop.rotateX(-0.5 * Math.PI)
         meshTop.position.y = height
-        meshBottom.rotateX(0.5 * Math.PI)
-        scene.add(meshTop)
-        scene.add(meshBottom)
+        meshBottom.rotateX(-0.5 * Math.PI)
+        group.add(meshTop)
+        group.add(meshBottom)
         
         // 外立面
         let geometry2 = new THREE.CylinderGeometry(
@@ -212,10 +211,10 @@ class ThreePie3d {
             startAngle,
             angle
         )
-        let meshOuter = new THREE.Mesh(geometry2,this.getMaterial(color))
+        let meshOuter = new THREE.Mesh(geometry2,this.getGradientMaterial(color))
         meshOuter.position.y = height/2
         meshOuter.rotateY(0.5 * Math.PI)
-        scene.add(meshOuter)
+        group.add(meshOuter)
 
         // 内立面
         if(innerRadius !=0){
@@ -229,23 +228,53 @@ class ThreePie3d {
                 startAngle,
                 angle
             )
-            let meshInner = new THREE.Mesh(geometry3,this.getMaterial(color))
+            let meshInner = new THREE.Mesh(geometry3,this.getGradientMaterial(color))
             meshInner.position.y = height/2
             meshInner.rotateY(0.5 * Math.PI)
-            scene.add(meshInner)
+            group.add(meshInner)
         }
 
         // 侧面
-        // let 
+        let geometry4 = new THREE.PlaneGeometry(outerRadius-innerRadius,height)
+        let meshSide = new THREE.Mesh(geometry4,this.getGradientMaterial(color))
+        meshSide.position.y = height/2
+        meshSide.position.x = 0
+        meshSide.position.z = 0
+        let meshSide2 = meshSide.clone()
+        meshSide.rotateY(startAngle)
+        meshSide2.rotateY(startAngle+angle)
+        let axis = new THREE.Vector3(1,0,0)
+        meshSide.translateOnAxis(axis,(outerRadius - innerRadius) / 2 + innerRadius)
+        meshSide2.translateOnAxis(axis,(outerRadius - innerRadius) / 2 + innerRadius)
+      
+
+        group.add(meshSide)
+        group.add(meshSide2)
 
     }
-
     getMaterial(color){
-        return new THREE.MeshPhongMaterial({color,side:THREE.DoubleSide})
+        return new THREE.MeshLambertMaterial({
+            color,
+            transparent:true,
+            opacity:1,
+            side:THREE.DoubleSide
+        })
     }
+    getGradientMaterial(color){
+        return getGradientShaderMaterial(THREE,this.getLightColor(color),color)
+    }
+    getLightColor(color) {
+        let c = getColor(color);
+        let { red, blue, green } = c;
+        // console.log('%ccolor', `background:${color}`);
 
-
-
+        const l = 0.5;
+        const r = red + parseInt((255 - red) * l),
+          g = green + parseInt((255 - green) * l),
+          b = blue + parseInt((255 - blue) * l);
+        // console.log('%clight', `background:rgb(${r},${g}, ${b})`);
+        return `rgb(${r},${g}, ${b})`;
+      }
 
 }
 export default ThreePie3d
