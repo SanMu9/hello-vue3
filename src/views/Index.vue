@@ -15,6 +15,8 @@
     <router-link to="/index/vmodel">v-model</router-link> |
     <router-link to="/index/provide">Provide</router-link> |
     <router-link to="/index/vuex">Vuex</router-link> |
+    <router-link to="/index/watch">Watch</router-link> |
+    <router-link to="/index/keepAlive">KeepAlive</router-link> |
   </div>
   <keep-alive>
     <router-view/>

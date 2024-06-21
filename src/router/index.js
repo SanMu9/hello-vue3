@@ -67,6 +67,16 @@ const routes = [
         name: 'Vuex',
         component: () => import('../views/Vuex.vue')
       },
+      {
+        path: 'watch',
+        name: 'Watch',
+        component: () => import('../components/vue3/watch.vue')
+      },
+      {
+        path: 'keepAlive',
+        name: 'KeepAlive',
+        component: () => import('../components/vue3/keepAlive.vue')
+      },
     ]
   },
   
