@@ -333,6 +333,32 @@ const routes = [
     ]
   },
   {
+    path:'/cesium',
+    name:'Cesium',
+    component:() => import("../views/Cesium.vue"),
+    children:[
+      {
+        path:"",
+        redirect:'/cesium/tileset',
+      },
+      {
+        path:'tileset',
+        name:'cesium-tileset',
+        component: ()=> import('../components/cesium/Tileset.vue')
+      },
+      {
+        path:'hideWidget',
+        name:'cesium-hideWidget',
+        component: ()=> import('../components/cesium/HideWidget.vue')
+      },
+      {
+        path:'pointCloud',
+        name:'cesium-pointCloud',
+        component: ()=> import('../components/cesium/PointCloud.vue')
+      },
+    ]
+  },
+  {
     path:"/h5player",
     name:'H5Player',
     component: ()=> import('../views/H5Player.vue')
